@@ -317,29 +317,34 @@ var app = (function () {
     const file = "src/components/Camera.svelte";
 
     function create_fragment(ctx) {
-    	var input, t, ul, li0, li0_class_value, li1, li1_class_value, dispose;
+    	var input0, t0, input1, t1, ul, li0, li0_class_value, li1, li1_class_value, dispose;
 
     	const block = {
     		c: function create() {
-    			input = element("input");
-    			t = space();
+    			input0 = element("input");
+    			t0 = space();
+    			input1 = element("input");
+    			t1 = space();
     			ul = element("ul");
     			li0 = element("li");
     			li1 = element("li");
-    			attr_dev(input, "type", "file");
-    			attr_dev(input, "capture", "camera");
-    			attr_dev(input, "accept", "image/*");
-    			attr_dev(input, "id", "cameraInput");
-    			attr_dev(input, "name", "cameraInput");
-    			add_location(input, file, 135, 4, 2968);
+    			attr_dev(input0, "type", "file");
+    			attr_dev(input0, "capture", "camera");
+    			attr_dev(input0, "accept", "image/*");
+    			attr_dev(input0, "id", "cameraInput");
+    			attr_dev(input0, "name", "cameraInput");
+    			add_location(input0, file, 135, 4, 2968);
+    			attr_dev(input1, "type", "file");
+    			attr_dev(input1, "accept", "video/*;capture=camcorder");
+    			add_location(input1, file, 136, 0, 3058);
     			attr_dev(li0, "id", "retake-btn");
     			attr_dev(li0, "class", li0_class_value = "toolbar-btn " + (ctx.cameraOn ? 'hidden' : '') + " svelte-92qeeg");
-    			add_location(li0, file, 137, 2, 3081);
+    			add_location(li0, file, 139, 2, 3137);
     			attr_dev(li1, "id", "capture-btn");
     			attr_dev(li1, "class", li1_class_value = "toolbar-btn " + (ctx.cameraOn ? '' : 'hidden') + " svelte-92qeeg");
-    			add_location(li1, file, 137, 100, 3179);
+    			add_location(li1, file, 139, 100, 3235);
     			attr_dev(ul, "class", "toolbar svelte-92qeeg");
-    			add_location(ul, file, 136, 0, 3058);
+    			add_location(ul, file, 137, 0, 3113);
 
     			dispose = [
     				listen_dev(li0, "click", ctx.reshowCamera),
@@ -352,8 +357,10 @@ var app = (function () {
     		},
 
     		m: function mount(target, anchor) {
-    			insert_dev(target, input, anchor);
-    			insert_dev(target, t, anchor);
+    			insert_dev(target, input0, anchor);
+    			insert_dev(target, t0, anchor);
+    			insert_dev(target, input1, anchor);
+    			insert_dev(target, t1, anchor);
     			insert_dev(target, ul, anchor);
     			append_dev(ul, li0);
     			append_dev(ul, li1);
@@ -374,8 +381,10 @@ var app = (function () {
 
     		d: function destroy(detaching) {
     			if (detaching) {
-    				detach_dev(input);
-    				detach_dev(t);
+    				detach_dev(input0);
+    				detach_dev(t0);
+    				detach_dev(input1);
+    				detach_dev(t1);
     				detach_dev(ul);
     			}
 

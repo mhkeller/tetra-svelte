@@ -134,6 +134,8 @@ function capture () {
 <canvas id="video-capture-canvas" bind:this={captureCanvas} width="{w}" height="{h}"></canvas>
 <div id="video-overlay" style="width:{w}px; height:{h}px;"></div>
  --><input type="file" capture="camera" accept="image/*" id="cameraInput" name="cameraInput">
+<input type="file" accept="video/*;capture=camcorder">
 <ul class="toolbar">
+
   <li id="retake-btn" class="toolbar-btn {cameraOn ? 'hidden' : ''}" on:click="{reshowCamera}"></li><li id="capture-btn" class="toolbar-btn {cameraOn ? '' : 'hidden'}" on:click="{capture}"></li>
 </ul>
