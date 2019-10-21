@@ -6,7 +6,7 @@ let imageData;
 
 const fileReader = new window.FileReader();
 fileReader.onload = function () {
-	imageData = fileReader.result; // data <-- in this var you have the file data in Base64 format
+	imageData = fileReader.result;
 	console.log(imageData);
 };
 
@@ -14,10 +14,6 @@ let files = [];
 
 $: file = files[0];
 $: if (file) fileReader.readAsDataURL(file);
-
-// function getImage () {
-// 	fileReader.readAsDataURL(this.files[0]);
-// }
 </script>
 
 <style>
