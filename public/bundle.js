@@ -24,10 +24,6 @@ var app = (function () {
     function safe_not_equal(a, b) {
         return a != a ? b == b : a !== b || ((a && typeof a === 'object') || typeof a === 'function');
     }
-
-    function append(target, node) {
-        target.appendChild(node);
-    }
     function insert(target, node, anchor) {
         target.insertBefore(node, anchor || null);
     }
@@ -36,16 +32,6 @@ var app = (function () {
     }
     function element(name) {
         return document.createElement(name);
-    }
-    function text(data) {
-        return document.createTextNode(data);
-    }
-    function space() {
-        return text(' ');
-    }
-    function listen(node, event, handler, options) {
-        node.addEventListener(event, handler, options);
-        return () => node.removeEventListener(event, handler, options);
     }
     function attr(node, attribute, value) {
         if (value == null)
@@ -65,14 +51,6 @@ var app = (function () {
     let current_component;
     function set_current_component(component) {
         current_component = component;
-    }
-    function get_current_component() {
-        if (!current_component)
-            throw new Error(`Function called outside component initialization`);
-        return current_component;
-    }
-    function onMount(fn) {
-        get_current_component().$$.on_mount.push(fn);
     }
 
     const dirty_components = [];
@@ -265,10 +243,6 @@ var app = (function () {
     function dispatch_dev(type, detail) {
         document.dispatchEvent(custom_event(type, detail));
     }
-    function append_dev(target, node) {
-        dispatch_dev("SvelteDOMInsert", { target, node });
-        append(target, node);
-    }
     function insert_dev(target, node, anchor) {
         dispatch_dev("SvelteDOMInsert", { target, node, anchor });
         insert(target, node, anchor);
@@ -276,19 +250,6 @@ var app = (function () {
     function detach_dev(node) {
         dispatch_dev("SvelteDOMRemove", { node });
         detach(node);
-    }
-    function listen_dev(node, event, handler, options, has_prevent_default, has_stop_propagation) {
-        const modifiers = options === true ? ["capture"] : options ? Array.from(Object.keys(options)) : [];
-        if (has_prevent_default)
-            modifiers.push('preventDefault');
-        if (has_stop_propagation)
-            modifiers.push('stopPropagation');
-        dispatch_dev("SvelteDOMAddEventListener", { node, event, handler, modifiers });
-        const dispose = listen(node, event, handler, options);
-        return () => {
-            dispatch_dev("SvelteDOMRemoveEventListener", { node, event, handler, modifiers });
-            dispose();
-        };
     }
     function attr_dev(node, attribute, value) {
         attr(node, attribute, value);
@@ -317,39 +278,17 @@ var app = (function () {
     const file = "src/components/Camera.svelte";
 
     function create_fragment(ctx) {
-    	var input0, t0, input1, t1, ul, li0, li0_class_value, li1, li1_class_value, dispose;
+    	var input;
 
     	const block = {
     		c: function create() {
-    			input0 = element("input");
-    			t0 = space();
-    			input1 = element("input");
-    			t1 = space();
-    			ul = element("ul");
-    			li0 = element("li");
-    			li1 = element("li");
-    			attr_dev(input0, "type", "file");
-    			attr_dev(input0, "capture", "camera");
-    			attr_dev(input0, "accept", "image/*");
-    			attr_dev(input0, "id", "cameraInput");
-    			attr_dev(input0, "name", "cameraInput");
-    			add_location(input0, file, 135, 4, 2968);
-    			attr_dev(input1, "type", "file");
-    			attr_dev(input1, "accept", "video/*;capture=camcorder");
-    			add_location(input1, file, 136, 0, 3058);
-    			attr_dev(li0, "id", "retake-btn");
-    			attr_dev(li0, "class", li0_class_value = "toolbar-btn " + (ctx.cameraOn ? 'hidden' : '') + " svelte-92qeeg");
-    			add_location(li0, file, 139, 2, 3137);
-    			attr_dev(li1, "id", "capture-btn");
-    			attr_dev(li1, "class", li1_class_value = "toolbar-btn " + (ctx.cameraOn ? '' : 'hidden') + " svelte-92qeeg");
-    			add_location(li1, file, 139, 100, 3235);
-    			attr_dev(ul, "class", "toolbar svelte-92qeeg");
-    			add_location(ul, file, 137, 0, 3113);
-
-    			dispose = [
-    				listen_dev(li0, "click", ctx.reshowCamera),
-    				listen_dev(li1, "click", ctx.capture)
-    			];
+    			input = element("input");
+    			attr_dev(input, "type", "file");
+    			attr_dev(input, "capture", "camera");
+    			attr_dev(input, "accept", "image/*");
+    			attr_dev(input, "id", "cameraInput");
+    			attr_dev(input, "name", "cameraInput");
+    			add_location(input, file, 17, 0, 231);
     		},
 
     		l: function claim(nodes) {
@@ -357,45 +296,26 @@ var app = (function () {
     		},
 
     		m: function mount(target, anchor) {
-    			insert_dev(target, input0, anchor);
-    			insert_dev(target, t0, anchor);
-    			insert_dev(target, input1, anchor);
-    			insert_dev(target, t1, anchor);
-    			insert_dev(target, ul, anchor);
-    			append_dev(ul, li0);
-    			append_dev(ul, li1);
+    			insert_dev(target, input, anchor);
     		},
 
-    		p: function update(changed, ctx) {
-    			if ((changed.cameraOn) && li0_class_value !== (li0_class_value = "toolbar-btn " + (ctx.cameraOn ? 'hidden' : '') + " svelte-92qeeg")) {
-    				attr_dev(li0, "class", li0_class_value);
-    			}
-
-    			if ((changed.cameraOn) && li1_class_value !== (li1_class_value = "toolbar-btn " + (ctx.cameraOn ? '' : 'hidden') + " svelte-92qeeg")) {
-    				attr_dev(li1, "class", li1_class_value);
-    			}
-    		},
-
+    		p: noop,
     		i: noop,
     		o: noop,
 
     		d: function destroy(detaching) {
     			if (detaching) {
-    				detach_dev(input0);
-    				detach_dev(t0);
-    				detach_dev(input1);
-    				detach_dev(t1);
-    				detach_dev(ul);
+    				detach_dev(input);
     			}
-
-    			run_all(dispose);
     		}
     	};
     	dispatch_dev("SvelteRegisterBlock", { block, id: create_fragment.name, type: "component", source: "", ctx });
     	return block;
     }
 
-    function instance($$self, $$props, $$invalidate) {
+    let cameraOn = true;
+
+    function instance($$self) {
     	
 
     let video;
@@ -403,33 +323,6 @@ var app = (function () {
     let h = window.innerHeight;
     let w;
     let localStream;
-    let cameraOn = true;
-
-    onMount (() => {
-      // initCamera();
-      // const context = captureCanvas.getContext('2d');
-      // scaleCanvas(captureCanvas, context, w, h);
-    });
-
-    /* --------------------------------------------
-     * TODO, set up cameraOn as a writable store value
-     */
-    function reshowCamera () {
-      $$invalidate('cameraOn', cameraOn = true);
-      clearOverlays();
-    }
-
-    function clearOverlays () {
-      const context = captureCanvas.getContext('2d');
-      context.clearRect(0, 0, w, h);
-    }
-
-    function capture () {
-      $$invalidate('cameraOn', cameraOn = !cameraOn);
-      const context = captureCanvas.getContext('2d');
-      context.drawImage(video, 0, 0, w, h);
-      showCamera = false;
-    }
 
     	$$self.$capture_state = () => {
     		return {};
@@ -441,10 +334,10 @@ var app = (function () {
     		if ('h' in $$props) h = $$props.h;
     		if ('w' in $$props) w = $$props.w;
     		if ('localStream' in $$props) localStream = $$props.localStream;
-    		if ('cameraOn' in $$props) $$invalidate('cameraOn', cameraOn = $$props.cameraOn);
+    		if ('cameraOn' in $$props) cameraOn = $$props.cameraOn;
     	};
 
-    	return { cameraOn, reshowCamera, capture };
+    	return {};
     }
 
     class Camera extends SvelteComponentDev {
