@@ -24,9 +24,6 @@ var app = (function () {
     function safe_not_equal(a, b) {
         return a != a ? b == b : a !== b || ((a && typeof a === 'object') || typeof a === 'function');
     }
-    function null_to_empty(value) {
-        return value == null ? '' : value;
-    }
 
     function append(target, node) {
         target.appendChild(node);
@@ -58,9 +55,6 @@ var app = (function () {
     }
     function children(element) {
         return Array.from(element.childNodes);
-    }
-    function set_style(node, key, value, important) {
-        node.style.setProperty(key, value, important ? 'important' : '');
     }
     function custom_event(type, detail) {
         const e = document.createEvent('CustomEvent');
@@ -323,45 +317,29 @@ var app = (function () {
     const file = "src/components/Camera.svelte";
 
     function create_fragment(ctx) {
-    	var video_1, video_1_class_value, t0, canvas, t1, div, t2, ul, li0, li0_class_value, li1, li1_class_value, dispose;
+    	var input, t, ul, li0, li0_class_value, li1, li1_class_value, dispose;
 
     	const block = {
     		c: function create() {
-    			video_1 = element("video");
-    			t0 = space();
-    			canvas = element("canvas");
-    			t1 = space();
-    			div = element("div");
-    			t2 = space();
+    			input = element("input");
+    			t = space();
     			ul = element("ul");
     			li0 = element("li");
     			li1 = element("li");
-    			attr_dev(video_1, "id", "video");
-    			attr_dev(video_1, "width", ctx.w);
-    			attr_dev(video_1, "height", ctx.h);
-    			video_1.autoplay = true;
-    			video_1.playsInline = true;
-    			video_1.muted = true;
-    			attr_dev(video_1, "class", video_1_class_value = "" + null_to_empty((ctx.cameraOn ? '' : 'hidden')) + " svelte-92qeeg");
-    			add_location(video_1, file, 133, 0, 2689);
-    			attr_dev(canvas, "id", "video-capture-canvas");
-    			attr_dev(canvas, "width", ctx.w);
-    			attr_dev(canvas, "height", ctx.h);
-    			attr_dev(canvas, "class", "svelte-92qeeg");
-    			add_location(canvas, file, 134, 0, 2821);
-    			attr_dev(div, "id", "video-overlay");
-    			set_style(div, "width", "" + ctx.w + "px");
-    			set_style(div, "height", "" + ctx.h + "px");
-    			attr_dev(div, "class", "svelte-92qeeg");
-    			add_location(div, file, 135, 0, 2916);
+    			attr_dev(input, "type", "file");
+    			attr_dev(input, "capture", "camera");
+    			attr_dev(input, "accept", "image/*");
+    			attr_dev(input, "id", "cameraInput");
+    			attr_dev(input, "name", "cameraInput");
+    			add_location(input, file, 135, 4, 2968);
     			attr_dev(li0, "id", "retake-btn");
     			attr_dev(li0, "class", li0_class_value = "toolbar-btn " + (ctx.cameraOn ? 'hidden' : '') + " svelte-92qeeg");
-    			add_location(li0, file, 138, 2, 3006);
+    			add_location(li0, file, 137, 2, 3081);
     			attr_dev(li1, "id", "capture-btn");
     			attr_dev(li1, "class", li1_class_value = "toolbar-btn " + (ctx.cameraOn ? '' : 'hidden') + " svelte-92qeeg");
-    			add_location(li1, file, 138, 100, 3104);
+    			add_location(li1, file, 137, 100, 3179);
     			attr_dev(ul, "class", "toolbar svelte-92qeeg");
-    			add_location(ul, file, 137, 0, 2983);
+    			add_location(ul, file, 136, 0, 3058);
 
     			dispose = [
     				listen_dev(li0, "click", ctx.reshowCamera),
@@ -374,48 +352,14 @@ var app = (function () {
     		},
 
     		m: function mount(target, anchor) {
-    			insert_dev(target, video_1, anchor);
-    			ctx.video_1_binding(video_1);
-    			insert_dev(target, t0, anchor);
-    			insert_dev(target, canvas, anchor);
-    			ctx.canvas_binding(canvas);
-    			insert_dev(target, t1, anchor);
-    			insert_dev(target, div, anchor);
-    			insert_dev(target, t2, anchor);
+    			insert_dev(target, input, anchor);
+    			insert_dev(target, t, anchor);
     			insert_dev(target, ul, anchor);
     			append_dev(ul, li0);
     			append_dev(ul, li1);
     		},
 
     		p: function update(changed, ctx) {
-    			if (changed.w) {
-    				attr_dev(video_1, "width", ctx.w);
-    			}
-
-    			if (changed.h) {
-    				attr_dev(video_1, "height", ctx.h);
-    			}
-
-    			if ((changed.cameraOn) && video_1_class_value !== (video_1_class_value = "" + null_to_empty((ctx.cameraOn ? '' : 'hidden')) + " svelte-92qeeg")) {
-    				attr_dev(video_1, "class", video_1_class_value);
-    			}
-
-    			if (changed.w) {
-    				attr_dev(canvas, "width", ctx.w);
-    			}
-
-    			if (changed.h) {
-    				attr_dev(canvas, "height", ctx.h);
-    			}
-
-    			if (changed.w) {
-    				set_style(div, "width", "" + ctx.w + "px");
-    			}
-
-    			if (changed.h) {
-    				set_style(div, "height", "" + ctx.h + "px");
-    			}
-
     			if ((changed.cameraOn) && li0_class_value !== (li0_class_value = "toolbar-btn " + (ctx.cameraOn ? 'hidden' : '') + " svelte-92qeeg")) {
     				attr_dev(li0, "class", li0_class_value);
     			}
@@ -430,22 +374,8 @@ var app = (function () {
 
     		d: function destroy(detaching) {
     			if (detaching) {
-    				detach_dev(video_1);
-    			}
-
-    			ctx.video_1_binding(null);
-
-    			if (detaching) {
-    				detach_dev(t0);
-    				detach_dev(canvas);
-    			}
-
-    			ctx.canvas_binding(null);
-
-    			if (detaching) {
-    				detach_dev(t1);
-    				detach_dev(div);
-    				detach_dev(t2);
+    				detach_dev(input);
+    				detach_dev(t);
     				detach_dev(ul);
     			}
 
@@ -492,42 +422,20 @@ var app = (function () {
       showCamera = false;
     }
 
-    	function video_1_binding($$value) {
-    		binding_callbacks[$$value ? 'unshift' : 'push'](() => {
-    			$$invalidate('video', video = $$value);
-    		});
-    	}
-
-    	function canvas_binding($$value) {
-    		binding_callbacks[$$value ? 'unshift' : 'push'](() => {
-    			$$invalidate('captureCanvas', captureCanvas = $$value);
-    		});
-    	}
-
     	$$self.$capture_state = () => {
     		return {};
     	};
 
     	$$self.$inject_state = $$props => {
-    		if ('video' in $$props) $$invalidate('video', video = $$props.video);
-    		if ('captureCanvas' in $$props) $$invalidate('captureCanvas', captureCanvas = $$props.captureCanvas);
-    		if ('h' in $$props) $$invalidate('h', h = $$props.h);
-    		if ('w' in $$props) $$invalidate('w', w = $$props.w);
+    		if ('video' in $$props) video = $$props.video;
+    		if ('captureCanvas' in $$props) captureCanvas = $$props.captureCanvas;
+    		if ('h' in $$props) h = $$props.h;
+    		if ('w' in $$props) w = $$props.w;
     		if ('localStream' in $$props) localStream = $$props.localStream;
     		if ('cameraOn' in $$props) $$invalidate('cameraOn', cameraOn = $$props.cameraOn);
     	};
 
-    	return {
-    		video,
-    		captureCanvas,
-    		h,
-    		w,
-    		cameraOn,
-    		reshowCamera,
-    		capture,
-    		video_1_binding,
-    		canvas_binding
-    	};
+    	return { cameraOn, reshowCamera, capture };
     }
 
     class Camera extends SvelteComponentDev {
