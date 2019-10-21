@@ -328,16 +328,16 @@ var app = (function () {
     			div = element("div");
     			input = element("input");
     			attr_dev(img, "src", ctx.imageData);
-    			add_location(img, file_1, 52, 0, 978);
-    			add_location(p, file_1, 54, 0, 1004);
+    			add_location(img, file_1, 48, 0, 837);
+    			add_location(p, file_1, 50, 0, 863);
     			attr_dev(input, "type", "file");
     			attr_dev(input, "capture", "camera");
     			attr_dev(input, "accept", "image/*");
     			attr_dev(input, "name", "cameraInput");
     			attr_dev(input, "class", "svelte-1g3hz0p");
-    			add_location(input, file_1, 56, 1, 1073);
+    			add_location(input, file_1, 52, 1, 932);
     			attr_dev(div, "class", "open-camera svelte-1g3hz0p");
-    			add_location(div, file_1, 55, 0, 1046);
+    			add_location(div, file_1, 51, 0, 905);
     			dispose = listen_dev(input, "change", ctx.input_change_handler);
     		},
 
@@ -391,15 +391,11 @@ var app = (function () {
 
     const fileReader = new window.FileReader();
     $$invalidate('fileReader', fileReader.onload = function () {
-    	$$invalidate('imageData', imageData = fileReader.result); // data <-- in this var you have the file data in Base64 format
+    	$$invalidate('imageData', imageData = fileReader.result);
     	console.log(imageData);
     }, fileReader);
 
     let files = [];
-
-    // function getImage () {
-    // 	fileReader.readAsDataURL(this.files[0]);
-    // }
 
     	function input_change_handler() {
     		files = this.files;
