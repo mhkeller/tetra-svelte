@@ -12,8 +12,8 @@ let cameraOn = true;
 const config = { video: { height: h, facingMode: 'environment' }, audio: false };
 
 onMount (() => {
-  initCamera();
-  const context = captureCanvas.getContext('2d');
+  // initCamera();
+  // const context = captureCanvas.getContext('2d');
   // scaleCanvas(captureCanvas, context, w, h);
 });
 
