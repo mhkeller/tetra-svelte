@@ -26,6 +26,7 @@ function reshowCamera () {
 }
 
 function initCamera () {
+  alert('init camera')
   const log = msg => console.log(msg);
   navigator.mediaDevices.getUserMedia(config)
     .then(stream => {
