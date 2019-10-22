@@ -99,6 +99,8 @@ $: if (file) fileReader.readAsDataURL(file);
 		position: absolute;
 		top: 0;
 		left: 0;
+		width: 100%;
+		height: 100%;
 	}
 </style>
 
@@ -106,14 +108,15 @@ $: if (file) fileReader.readAsDataURL(file);
 	class="image-container"
 	style="width:{width}px; height:{height}px"
 >
-	<img
-		src="{imageData}"
-		alt="uploaded image"
-		bind:this="{image}"
-	/>
+	{#if imageData}
+		<img
+			src="{imageData}"
+			alt="uploaded image"
+			bind:this="{image}"
+		/>
+	{/if}
 	<div
 		class="image-overlay"
-		style="width:{width}px; height:{height}px"
 	>
 		{#if boxes}
 			{#each boxes as box}
