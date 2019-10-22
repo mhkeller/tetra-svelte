@@ -40,6 +40,7 @@ fileReader.onload = function () {
 function doOcr () {
 	(async () => {
 		console.log('recognizing');
+		console.log(image.width);
 		const { data } = await worker.recognize(image);
 		console.log(data.text);
 		boxes = data.words;
@@ -49,14 +50,6 @@ function doOcr () {
 }
 
 let files = [];
-
-// function updateWidth () {
-// 	setTimeout(() => {
-// 		console.log(image, image.width, image.height);
-// 		width = image.width;
-// 		height = image.height;
-// 	}, 1000)
-// }
 
 $: file = files[0];
 $: if (file) fileReader.readAsDataURL(file);
@@ -93,7 +86,7 @@ $: if (file) fileReader.readAsDataURL(file);
 
 	img {
 		max-width: 100%;
-		max-height: 100%;
+		max-height: 90%;
 	}
 
 	.image-container {

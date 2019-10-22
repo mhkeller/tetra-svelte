@@ -442,7 +442,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (125:2) {#if boxes}
+    // (118:2) {#if boxes}
     function create_if_block(ctx) {
     	var each_1_anchor, current;
 
@@ -529,11 +529,11 @@ var app = (function () {
     			}
     		}
     	};
-    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block.name, type: "if", source: "(125:2) {#if boxes}", ctx });
+    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block.name, type: "if", source: "(118:2) {#if boxes}", ctx });
     	return block;
     }
 
-    // (126:3) {#each boxes as box}
+    // (119:3) {#each boxes as box}
     function create_each_block(ctx) {
     	var current;
 
@@ -574,7 +574,7 @@ var app = (function () {
     			destroy_component(box, detaching);
     		}
     	};
-    	dispatch_dev("SvelteRegisterBlock", { block, id: create_each_block.name, type: "each", source: "(126:3) {#each boxes as box}", ctx });
+    	dispatch_dev("SvelteRegisterBlock", { block, id: create_each_block.name, type: "each", source: "(119:3) {#each boxes as box}", ctx });
     	return block;
     }
 
@@ -595,24 +595,24 @@ var app = (function () {
     			input = element("input");
     			attr_dev(img, "src", ctx.imageData);
     			attr_dev(img, "alt", "uploaded image");
-    			attr_dev(img, "class", "svelte-16gi8qc");
-    			add_location(img, file_1, 115, 1, 1999);
-    			attr_dev(div0, "class", "image-overlay svelte-16gi8qc");
+    			attr_dev(img, "class", "svelte-1pwx4j4");
+    			add_location(img, file_1, 108, 1, 1849);
+    			attr_dev(div0, "class", "image-overlay svelte-1pwx4j4");
     			set_style(div0, "width", "" + ctx.width + "px");
     			set_style(div0, "height", "" + ctx.height + "px");
-    			add_location(div0, file_1, 120, 1, 2074);
-    			attr_dev(div1, "class", "image-container svelte-16gi8qc");
+    			add_location(div0, file_1, 113, 1, 1924);
+    			attr_dev(div1, "class", "image-container svelte-1pwx4j4");
     			set_style(div1, "width", "" + ctx.width + "px");
     			set_style(div1, "height", "" + ctx.height + "px");
-    			add_location(div1, file_1, 111, 0, 1922);
+    			add_location(div1, file_1, 104, 0, 1772);
     			attr_dev(input, "type", "file");
     			attr_dev(input, "capture", "camera");
     			attr_dev(input, "accept", "image/*");
     			attr_dev(input, "name", "cameraInput");
-    			attr_dev(input, "class", "svelte-16gi8qc");
-    			add_location(input, file_1, 133, 1, 2268);
-    			attr_dev(div2, "class", "open-camera svelte-16gi8qc");
-    			add_location(div2, file_1, 132, 0, 2241);
+    			attr_dev(input, "class", "svelte-1pwx4j4");
+    			add_location(input, file_1, 126, 1, 2118);
+    			attr_dev(div2, "class", "open-camera svelte-1pwx4j4");
+    			add_location(div2, file_1, 125, 0, 2091);
     			dispose = listen_dev(input, "change", ctx.input_change_handler);
     		},
 
@@ -744,6 +744,7 @@ var app = (function () {
     function doOcr () {
     	(async () => {
     		console.log('recognizing');
+    		console.log(image.width);
     		const { data } = await worker.recognize(image);
     		console.log(data.text);
     		$$invalidate('boxes', boxes = data.words);
