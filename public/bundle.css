@@ -1,4 +1,5 @@
 body{background-color:#000}
-.open-camera.svelte-1g3hz0p{position:fixed;width:100%;height:10%;bottom:0;background-color:#6699cc;border-top-left-radius:5px;border-top-right-radius:5px}.open-camera.svelte-1g3hz0p:after{content:'Take picture';position:absolute;color:#fff;top:50%;left:50%;font-weight:bold;transform:translate(-50%, -50%)}.open-camera.svelte-1g3hz0p:hover{background-color:#538cc6}input.svelte-1g3hz0p{width:100%;height:100%;opacity:0;cursor:pointer}
+.open-camera.svelte-1q6ayqa{position:fixed;width:100%;height:10%;bottom:0;background-color:#6699cc;border-top-left-radius:5px;border-top-right-radius:5px}.open-camera.svelte-1q6ayqa:after{content:'Take picture';position:absolute;color:#fff;top:50%;left:50%;font-weight:bold;transform:translate(-50%, -50%)}.open-camera.svelte-1q6ayqa:hover{background-color:#538cc6}input.svelte-1q6ayqa{width:100%;height:100%;opacity:0;cursor:pointer}.image-container.svelte-1q6ayqa{position:relative;left:50%;transform:translate(-50%, 0)}.image-overlay.svelte-1q6ayqa{position:absolute;top:0;left:0}
+.box.svelte-1uepgxv{position:absolute;border:1px solid red}
 
 /*# sourceMappingURL=bundle.css.map */

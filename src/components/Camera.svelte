@@ -1,16 +1,62 @@
 <script>
-import scaleCanvas from '../modules/scaleCanvas.js';
+// import scaleCanvas from '../modules/scaleCanvas.js';
+import Box from './Box.svelte';
 import { onMount } from 'svelte';
 
+let image;
+let width;
+let height;
 let imageData;
+let boxes;
+
+const lang = 'fra';
+
+const worker = window.Tesseract.createWorker({
+	logger: m => console.log(m)
+});
+
+async function init () {
+	await worker.load();
+	await worker.setParameters({
+		tessjs_create_box: 1
+	});
+	await worker.loadLanguage(lang);
+	await worker.initialize(lang);
+	console.log('done initializing');
+}
+
+init();
 
 const fileReader = new window.FileReader();
 fileReader.onload = function () {
 	imageData = fileReader.result;
-	console.log(imageData);
+	setTimeout(() => {
+		width = image.width;
+		height = image.height;
+		doOcr();
+	}, 1000);
 };
 
+function doOcr () {
+	(async () => {
+		console.log('recognizing');
+		const { data } = await worker.recognize(image);
+		console.log(data.text);
+		boxes = data.words;
+		console.log('boxes', boxes);
+		// await worker.terminate();
+	})();
+}
+
 let files = [];
+
+// function updateWidth () {
+// 	setTimeout(() => {
+// 		console.log(image, image.width, image.height);
+// 		width = image.width;
+// 		height = image.height;
+// 	}, 1000)
+// }
 
 $: file = files[0];
 $: if (file) fileReader.readAsDataURL(file);
@@ -44,11 +90,41 @@ $: if (file) fileReader.readAsDataURL(file);
 		opacity: 0;
 		cursor: pointer;
 	}
+
+	.image-container {
+		position: relative;
+		left: 50%;
+		transform: translate(-50%, 0);
+	}
+
+	.image-overlay {
+		position: absolute;
+		top: 0;
+		left: 0;
+	}
 </style>
 
-<img src="{imageData}"/>
+<div
+	class="image-container"
+	style="width:{width}px; height:{height}px"
+>
+	<img
+		src="{imageData}"
+		alt="uploaded image"
+		bind:this="{image}"
+	/>
+	<div
+		class="image-overlay"
+		style="width:{width}px; height:{height}px"
+	>
+		{#if boxes}
+			{#each boxes as box}
+				<Box {box}/>
+			{/each}
+		{/if}
+	</div>
+</div>
 
-<p>{file ? file.name : 'load a file'}</p>
 <div class="open-camera">
 	<input
 		type="file"
