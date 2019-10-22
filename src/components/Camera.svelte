@@ -91,6 +91,11 @@ $: if (file) fileReader.readAsDataURL(file);
 		cursor: pointer;
 	}
 
+	img {
+		max-width: 100%;
+		max-height: 100%;
+	}
+
 	.image-container {
 		position: relative;
 		left: 50%;
