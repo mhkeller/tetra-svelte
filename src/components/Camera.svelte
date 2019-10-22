@@ -30,11 +30,6 @@ init();
 const fileReader = new window.FileReader();
 fileReader.onload = function () {
 	imageData = fileReader.result;
-	setTimeout(() => {
-		width = image.width;
-		height = image.height;
-		doOcr();
-	}, 1000);
 };
 
 function doOcr () {
@@ -47,6 +42,11 @@ function doOcr () {
 		console.log('boxes', boxes);
 		// await worker.terminate();
 	})();
+}
+
+function setDimensions() {
+	({ width, height } = this);
+	doOcr();
 }
 
 let files = [];
@@ -112,7 +112,8 @@ $: if (file) fileReader.readAsDataURL(file);
 		<img
 			src="{imageData}"
 			alt="uploaded image"
-			bind:this="{image}"
+			bind:this={image}
+			on:load={setDimensions}
 		/>
 	{/if}
 	<div

@@ -444,7 +444,7 @@ var app = (function () {
 
     // (111:1) {#if imageData}
     function create_if_block_1(ctx) {
-    	var img;
+    	var img, dispose;
 
     	const block = {
     		c: function create() {
@@ -452,7 +452,8 @@ var app = (function () {
     			attr_dev(img, "src", ctx.imageData);
     			attr_dev(img, "alt", "uploaded image");
     			attr_dev(img, "class", "svelte-10o2vxv");
-    			add_location(img, file_1, 111, 2, 1898);
+    			add_location(img, file_1, 111, 2, 1877);
+    			dispose = listen_dev(img, "load", ctx.setDimensions);
     		},
 
     		m: function mount(target, anchor) {
@@ -472,13 +473,14 @@ var app = (function () {
     			}
 
     			ctx.img_binding(null);
+    			dispose();
     		}
     	};
     	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block_1.name, type: "if", source: "(111:1) {#if imageData}", ctx });
     	return block;
     }
 
-    // (121:2) {#if boxes}
+    // (122:2) {#if boxes}
     function create_if_block(ctx) {
     	var each_1_anchor, current;
 
@@ -565,11 +567,11 @@ var app = (function () {
     			}
     		}
     	};
-    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block.name, type: "if", source: "(121:2) {#if boxes}", ctx });
+    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block.name, type: "if", source: "(122:2) {#if boxes}", ctx });
     	return block;
     }
 
-    // (122:3) {#each boxes as box}
+    // (123:3) {#each boxes as box}
     function create_each_block(ctx) {
     	var current;
 
@@ -610,7 +612,7 @@ var app = (function () {
     			destroy_component(box, detaching);
     		}
     	};
-    	dispatch_dev("SvelteRegisterBlock", { block, id: create_each_block.name, type: "each", source: "(122:3) {#each boxes as box}", ctx });
+    	dispatch_dev("SvelteRegisterBlock", { block, id: create_each_block.name, type: "each", source: "(123:3) {#each boxes as box}", ctx });
     	return block;
     }
 
@@ -632,19 +634,19 @@ var app = (function () {
     			div2 = element("div");
     			input = element("input");
     			attr_dev(div0, "class", "image-overlay svelte-10o2vxv");
-    			add_location(div0, file_1, 117, 1, 1984);
+    			add_location(div0, file_1, 118, 1, 1988);
     			attr_dev(div1, "class", "image-container svelte-10o2vxv");
     			set_style(div1, "width", "" + ctx.width + "px");
     			set_style(div1, "height", "" + ctx.height + "px");
-    			add_location(div1, file_1, 106, 0, 1803);
+    			add_location(div1, file_1, 106, 0, 1782);
     			attr_dev(input, "type", "file");
     			attr_dev(input, "capture", "camera");
     			attr_dev(input, "accept", "image/*");
     			attr_dev(input, "name", "cameraInput");
     			attr_dev(input, "class", "svelte-10o2vxv");
-    			add_location(input, file_1, 129, 1, 2133);
+    			add_location(input, file_1, 130, 1, 2137);
     			attr_dev(div2, "class", "open-camera svelte-10o2vxv");
-    			add_location(div2, file_1, 128, 0, 2106);
+    			add_location(div2, file_1, 129, 0, 2110);
     			dispose = listen_dev(input, "change", ctx.input_change_handler);
     		},
 
@@ -766,11 +768,6 @@ var app = (function () {
     const fileReader = new window.FileReader();
     $$invalidate('fileReader', fileReader.onload = function () {
     	$$invalidate('imageData', imageData = fileReader.result);
-    	setTimeout(() => {
-    		$$invalidate('width', width = image.width);
-    		$$invalidate('height', height = image.height);
-    		doOcr();
-    	}, 1000);
     }, fileReader);
 
     function doOcr () {
@@ -783,6 +780,11 @@ var app = (function () {
     		console.log('boxes', boxes);
     		// await worker.terminate();
     	})();
+    }
+
+    function setDimensions() {
+    	($$invalidate('width', { width, height } = this, width, $$invalidate('height', height)));
+    	doOcr();
     }
 
     let files = [];
@@ -825,6 +827,7 @@ var app = (function () {
     		height,
     		imageData,
     		boxes,
+    		setDimensions,
     		files,
     		img_binding,
     		input_change_handler
