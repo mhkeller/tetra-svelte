@@ -12,27 +12,13 @@ let imageData;
 let boxes;
 let wtt;
 
-const lang = 'fra';
+const lang = 'fr';
+
+const ocrKey = window.localStorage.getItem('ocr_key');
 
 wordToTranslate.subscribe(val => {
 	wtt = val;
 });
-
-const worker = window.Tesseract.createWorker({
-	logger: m => console.log(m)
-});
-
-async function init () {
-	await worker.load();
-	await worker.setParameters({
-		tessjs_create_box: 1
-	});
-	await worker.loadLanguage(lang);
-	await worker.initialize(lang);
-	console.log('done initializing');
-}
-
-init();
 
 const fileReader = new window.FileReader();
 fileReader.onload = function () {
@@ -49,10 +35,33 @@ function doOcr () {
 		canvas.width = width;
 		canvas.height = height;
 		ctx.drawImage(image, 0, 0, width, height);
+		const base64 = canvas.toDataURL().split(',')[1];
 
-		const { data } = await worker.recognize(canvas);
-		console.log(data.text);
-		boxes = data.words;
+		const response = await window.fetch(`https://vision.googleapis.com/v1/images:annotate?key=${ocrKey}`, {
+			method: 'POST',
+			body: JSON.stringify({
+				requests: [
+					{
+						image: {
+							content: base64
+						},
+						features: [
+							{
+								type: 'TEXT_DETECTION'
+							}
+						],
+						imageContext: {
+							languageHints: ['fr']
+						}
+					}
+				]
+			})
+		});
+		const res = await response.json();
+
+		// const { data } = await worker.recognize(canvas);
+		console.log(res);
+		boxes = res.responses[0].textAnnotations;
 		// await worker.terminate();
 	})();
 }
@@ -81,7 +90,7 @@ $: if (file) fileReader.readAsDataURL(file);
 	.open-camera:after {
 		content: 'Take picture';
 		position: absolute;
-		color: #fff;
+		color: #000;
 		top: 50%;
 		font-size: 20px;
 		font-family: Helvetica, sans-serif;
@@ -136,9 +145,9 @@ $: if (file) fileReader.readAsDataURL(file);
 	>
 		{#if boxes}
 			{#each boxes as box}
-				<Box
-					{box}
-				/>
+				{#if !box.locale}
+					<Box {box} />
+				{/if}
 			{/each}
 		{/if}
 	</div>

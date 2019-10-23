@@ -8,7 +8,7 @@ wordToTranslate.subscribe(val => {
 	activeWord = val;
 });
 function sendForTranslation () {
-	wordToTranslate.set(box.text);
+	wordToTranslate.set(box.description);
 }
 </script>
 
@@ -23,7 +23,7 @@ function sendForTranslation () {
 </style>
 
 <div
-	class="box {box.text === activeWord ? 'active' : ''}"
-	style="left: {box.bbox.x0}px; top: {box.bbox.y0}px; width: {box.bbox.x1 - box.bbox.x0}px; height: {box.bbox.y1 - box.bbox.y0}px"
+	class="box {box.description === activeWord ? 'active' : ''}"
+	style="left: {box.boundingPoly.vertices[0].x}px; top: {box.boundingPoly.vertices[0].y}px; width: {box.boundingPoly.vertices[1].x - box.boundingPoly.vertices[0].x}px; height: {box.boundingPoly.vertices[2].y - box.boundingPoly.vertices[0].y}px"
 	on:click={sendForTranslation}
 	></div>
