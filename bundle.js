@@ -514,7 +514,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (86:0) {#if wtt}
+    // (87:0) {#if wtt}
     function create_if_block(ctx) {
     	var div2, input, t0, div0, t1, div1, dispose;
 
@@ -531,14 +531,14 @@ var app = (function () {
     			div1 = element("div");
     			attr_dev(input, "type", "search");
     			input.value = ctx.wtt;
-    			attr_dev(input, "class", "svelte-1b8j225");
-    			add_location(input, file$1, 89, 2, 1629);
-    			attr_dev(div0, "class", "translated-text svelte-1b8j225");
-    			add_location(div0, file$1, 90, 2, 1668);
-    			attr_dev(div1, "class", "close-btn svelte-1b8j225");
-    			add_location(div1, file$1, 99, 2, 1867);
-    			attr_dev(div2, "class", "translate-drawer svelte-1b8j225");
-    			add_location(div2, file$1, 86, 1, 1592);
+    			attr_dev(input, "class", "svelte-17m947x");
+    			add_location(input, file$1, 90, 2, 1643);
+    			attr_dev(div0, "class", "translated-text svelte-17m947x");
+    			add_location(div0, file$1, 91, 2, 1682);
+    			attr_dev(div1, "class", "close-btn svelte-17m947x");
+    			add_location(div1, file$1, 100, 2, 1881);
+    			attr_dev(div2, "class", "translate-drawer svelte-17m947x");
+    			add_location(div2, file$1, 87, 1, 1606);
     			dispose = listen_dev(div1, "click", ctx.destroy);
     		},
 
@@ -580,11 +580,11 @@ var app = (function () {
     			dispose();
     		}
     	};
-    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block.name, type: "if", source: "(86:0) {#if wtt}", ctx });
+    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block.name, type: "if", source: "(87:0) {#if wtt}", ctx });
     	return block;
     }
 
-    // (94:3) {#if translations}
+    // (95:3) {#if translations}
     function create_if_block_1(ctx) {
     	var each_1_anchor;
 
@@ -645,11 +645,11 @@ var app = (function () {
     			}
     		}
     	};
-    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block_1.name, type: "if", source: "(94:3) {#if translations}", ctx });
+    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block_1.name, type: "if", source: "(95:3) {#if translations}", ctx });
     	return block;
     }
 
-    // (95:4) {#each translations as translation}
+    // (96:4) {#each translations as translation}
     function create_each_block(ctx) {
     	var div, t_value = ctx.translation.translatedText + "", t;
 
@@ -658,7 +658,7 @@ var app = (function () {
     			div = element("div");
     			t = text(t_value);
     			attr_dev(div, "class", "translated-word");
-    			add_location(div, file$1, 95, 5, 1771);
+    			add_location(div, file$1, 96, 5, 1785);
     		},
 
     		m: function mount(target, anchor) {
@@ -678,7 +678,7 @@ var app = (function () {
     			}
     		}
     	};
-    	dispatch_dev("SvelteRegisterBlock", { block, id: create_each_block.name, type: "each", source: "(95:4) {#each translations as translation}", ctx });
+    	dispatch_dev("SvelteRegisterBlock", { block, id: create_each_block.name, type: "each", source: "(96:4) {#each translations as translation}", ctx });
     	return block;
     }
 
@@ -798,8 +798,8 @@ var app = (function () {
     			img = element("img");
     			attr_dev(img, "src", ctx.imageData);
     			attr_dev(img, "alt", "uploaded image");
-    			attr_dev(img, "class", "svelte-oyazwz");
-    			add_location(img, file_1, 126, 2, 2292);
+    			attr_dev(img, "class", "svelte-hbicmy");
+    			add_location(img, file_1, 126, 2, 2291);
     			dispose = listen_dev(img, "load", ctx.setDimensions);
     		},
 
@@ -1020,20 +1020,20 @@ var app = (function () {
     			t2 = space();
     			div2 = element("div");
     			input = element("input");
-    			attr_dev(div0, "class", "image-overlay svelte-oyazwz");
-    			add_location(div0, file_1, 133, 1, 2403);
-    			attr_dev(div1, "class", "image-container svelte-oyazwz");
+    			attr_dev(div0, "class", "image-overlay svelte-hbicmy");
+    			add_location(div0, file_1, 133, 1, 2402);
+    			attr_dev(div1, "class", "image-container svelte-hbicmy");
     			set_style(div1, "width", "" + ctx.width + "px");
     			set_style(div1, "height", "" + ctx.height + "px");
-    			add_location(div1, file_1, 121, 0, 2197);
+    			add_location(div1, file_1, 121, 0, 2196);
     			attr_dev(input, "type", "file");
     			attr_dev(input, "capture", "camera");
     			attr_dev(input, "accept", "image/*");
     			attr_dev(input, "name", "cameraInput");
-    			attr_dev(input, "class", "svelte-oyazwz");
-    			add_location(input, file_1, 150, 1, 2598);
-    			attr_dev(div2, "class", "open-camera svelte-oyazwz");
-    			add_location(div2, file_1, 149, 0, 2571);
+    			attr_dev(input, "class", "svelte-hbicmy");
+    			add_location(input, file_1, 150, 1, 2597);
+    			attr_dev(div2, "class", "open-camera svelte-hbicmy");
+    			add_location(div2, file_1, 149, 0, 2570);
     			dispose = listen_dev(input, "change", ctx.input_change_handler);
     		},
 
