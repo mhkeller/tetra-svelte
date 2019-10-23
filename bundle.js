@@ -514,34 +514,42 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (41:0) {#if wtt}
+    // (86:0) {#if wtt}
     function create_if_block(ctx) {
-    	var div1, input, t, div0;
+    	var div2, input, t0, div0, t1, div1, dispose;
 
     	var if_block = (ctx.translations) && create_if_block_1(ctx);
 
     	const block = {
     		c: function create() {
-    			div1 = element("div");
+    			div2 = element("div");
     			input = element("input");
-    			t = space();
+    			t0 = space();
     			div0 = element("div");
     			if (if_block) if_block.c();
-    			attr_dev(input, "type", "text");
+    			t1 = space();
+    			div1 = element("div");
+    			attr_dev(input, "type", "search");
     			input.value = ctx.wtt;
-    			add_location(input, file$1, 44, 2, 862);
-    			attr_dev(div0, "class", "translated-text");
-    			add_location(div0, file$1, 45, 2, 899);
-    			attr_dev(div1, "class", "translate-drawer svelte-ltl7qd");
-    			add_location(div1, file$1, 41, 1, 825);
+    			attr_dev(input, "class", "svelte-1b8j225");
+    			add_location(input, file$1, 89, 2, 1629);
+    			attr_dev(div0, "class", "translated-text svelte-1b8j225");
+    			add_location(div0, file$1, 90, 2, 1668);
+    			attr_dev(div1, "class", "close-btn svelte-1b8j225");
+    			add_location(div1, file$1, 99, 2, 1867);
+    			attr_dev(div2, "class", "translate-drawer svelte-1b8j225");
+    			add_location(div2, file$1, 86, 1, 1592);
+    			dispose = listen_dev(div1, "click", ctx.destroy);
     		},
 
     		m: function mount(target, anchor) {
-    			insert_dev(target, div1, anchor);
-    			append_dev(div1, input);
-    			append_dev(div1, t);
-    			append_dev(div1, div0);
+    			insert_dev(target, div2, anchor);
+    			append_dev(div2, input);
+    			append_dev(div2, t0);
+    			append_dev(div2, div0);
     			if (if_block) if_block.m(div0, null);
+    			append_dev(div2, t1);
+    			append_dev(div2, div1);
     		},
 
     		p: function update(changed, ctx) {
@@ -563,19 +571,20 @@ var app = (function () {
     			}
     		},
 
-    		d: function destroy(detaching) {
+    		d: function destroy_1(detaching) {
     			if (detaching) {
-    				detach_dev(div1);
+    				detach_dev(div2);
     			}
 
     			if (if_block) if_block.d();
+    			dispose();
     		}
     	};
-    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block.name, type: "if", source: "(41:0) {#if wtt}", ctx });
+    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block.name, type: "if", source: "(86:0) {#if wtt}", ctx });
     	return block;
     }
 
-    // (49:3) {#if translations}
+    // (94:3) {#if translations}
     function create_if_block_1(ctx) {
     	var each_1_anchor;
 
@@ -628,7 +637,7 @@ var app = (function () {
     			}
     		},
 
-    		d: function destroy(detaching) {
+    		d: function destroy_1(detaching) {
     			destroy_each(each_blocks, detaching);
 
     			if (detaching) {
@@ -636,24 +645,25 @@ var app = (function () {
     			}
     		}
     	};
-    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block_1.name, type: "if", source: "(49:3) {#if translations}", ctx });
+    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block_1.name, type: "if", source: "(94:3) {#if translations}", ctx });
     	return block;
     }
 
-    // (50:4) {#each translations as translation}
+    // (95:4) {#each translations as translation}
     function create_each_block(ctx) {
-    	var p, t_value = ctx.translation.translatedText + "", t;
+    	var div, t_value = ctx.translation.translatedText + "", t;
 
     	const block = {
     		c: function create() {
-    			p = element("p");
+    			div = element("div");
     			t = text(t_value);
-    			add_location(p, file$1, 50, 5, 1002);
+    			attr_dev(div, "class", "translated-word");
+    			add_location(div, file$1, 95, 5, 1771);
     		},
 
     		m: function mount(target, anchor) {
-    			insert_dev(target, p, anchor);
-    			append_dev(p, t);
+    			insert_dev(target, div, anchor);
+    			append_dev(div, t);
     		},
 
     		p: function update(changed, ctx) {
@@ -662,13 +672,13 @@ var app = (function () {
     			}
     		},
 
-    		d: function destroy(detaching) {
+    		d: function destroy_1(detaching) {
     			if (detaching) {
-    				detach_dev(p);
+    				detach_dev(div);
     			}
     		}
     	};
-    	dispatch_dev("SvelteRegisterBlock", { block, id: create_each_block.name, type: "each", source: "(50:4) {#each translations as translation}", ctx });
+    	dispatch_dev("SvelteRegisterBlock", { block, id: create_each_block.name, type: "each", source: "(95:4) {#each translations as translation}", ctx });
     	return block;
     }
 
@@ -710,7 +720,7 @@ var app = (function () {
     		i: noop,
     		o: noop,
 
-    		d: function destroy(detaching) {
+    		d: function destroy_1(detaching) {
     			if (if_block) if_block.d(detaching);
 
     			if (detaching) {
@@ -742,8 +752,13 @@ var app = (function () {
     		method: 'POST'
     	});
     	const res = await response.json();
+    	console.log(res);
     	$$invalidate('translations', translations = res.data.translations);
     }
+    function destroy () {
+    	$$invalidate('wtt', wtt = null);
+    }
+
     	$$self.$capture_state = () => {
     		return {};
     	};
@@ -753,7 +768,7 @@ var app = (function () {
     		if ('translations' in $$props) $$invalidate('translations', translations = $$props.translations);
     	};
 
-    	return { wtt, translations };
+    	return { wtt, translations, destroy };
     }
 
     class TranslateDrawer extends SvelteComponentDev {
@@ -774,7 +789,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (124:1) {#if imageData}
+    // (126:1) {#if imageData}
     function create_if_block_2(ctx) {
     	var img, dispose;
 
@@ -783,8 +798,8 @@ var app = (function () {
     			img = element("img");
     			attr_dev(img, "src", ctx.imageData);
     			attr_dev(img, "alt", "uploaded image");
-    			attr_dev(img, "class", "svelte-ugcgew");
-    			add_location(img, file_1, 124, 2, 2232);
+    			attr_dev(img, "class", "svelte-oyazwz");
+    			add_location(img, file_1, 126, 2, 2292);
     			dispose = listen_dev(img, "load", ctx.setDimensions);
     		},
 
@@ -808,11 +823,11 @@ var app = (function () {
     			dispose();
     		}
     	};
-    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block_2.name, type: "if", source: "(124:1) {#if imageData}", ctx });
+    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block_2.name, type: "if", source: "(126:1) {#if imageData}", ctx });
     	return block;
     }
 
-    // (135:2) {#if boxes}
+    // (137:2) {#if boxes}
     function create_if_block_1$1(ctx) {
     	var each_1_anchor, current;
 
@@ -899,11 +914,11 @@ var app = (function () {
     			}
     		}
     	};
-    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block_1$1.name, type: "if", source: "(135:2) {#if boxes}", ctx });
+    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block_1$1.name, type: "if", source: "(137:2) {#if boxes}", ctx });
     	return block;
     }
 
-    // (136:3) {#each boxes as box}
+    // (138:3) {#each boxes as box}
     function create_each_block$1(ctx) {
     	var current;
 
@@ -944,11 +959,11 @@ var app = (function () {
     			destroy_component(box, detaching);
     		}
     	};
-    	dispatch_dev("SvelteRegisterBlock", { block, id: create_each_block$1.name, type: "each", source: "(136:3) {#each boxes as box}", ctx });
+    	dispatch_dev("SvelteRegisterBlock", { block, id: create_each_block$1.name, type: "each", source: "(138:3) {#each boxes as box}", ctx });
     	return block;
     }
 
-    // (145:0) {#if wtt}
+    // (147:0) {#if wtt}
     function create_if_block$1(ctx) {
     	var current;
 
@@ -980,7 +995,7 @@ var app = (function () {
     			destroy_component(translatedrawer, detaching);
     		}
     	};
-    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block$1.name, type: "if", source: "(145:0) {#if wtt}", ctx });
+    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block$1.name, type: "if", source: "(147:0) {#if wtt}", ctx });
     	return block;
     }
 
@@ -1005,20 +1020,20 @@ var app = (function () {
     			t2 = space();
     			div2 = element("div");
     			input = element("input");
-    			attr_dev(div0, "class", "image-overlay svelte-ugcgew");
-    			add_location(div0, file_1, 131, 1, 2343);
-    			attr_dev(div1, "class", "image-container svelte-ugcgew");
+    			attr_dev(div0, "class", "image-overlay svelte-oyazwz");
+    			add_location(div0, file_1, 133, 1, 2403);
+    			attr_dev(div1, "class", "image-container svelte-oyazwz");
     			set_style(div1, "width", "" + ctx.width + "px");
     			set_style(div1, "height", "" + ctx.height + "px");
-    			add_location(div1, file_1, 119, 0, 2137);
+    			add_location(div1, file_1, 121, 0, 2197);
     			attr_dev(input, "type", "file");
     			attr_dev(input, "capture", "camera");
     			attr_dev(input, "accept", "image/*");
     			attr_dev(input, "name", "cameraInput");
-    			attr_dev(input, "class", "svelte-ugcgew");
-    			add_location(input, file_1, 148, 1, 2538);
-    			attr_dev(div2, "class", "open-camera svelte-ugcgew");
-    			add_location(div2, file_1, 147, 0, 2511);
+    			attr_dev(input, "class", "svelte-oyazwz");
+    			add_location(input, file_1, 150, 1, 2598);
+    			attr_dev(div2, "class", "open-camera svelte-oyazwz");
+    			add_location(div2, file_1, 149, 0, 2571);
     			dispose = listen_dev(input, "change", ctx.input_change_handler);
     		},
 
