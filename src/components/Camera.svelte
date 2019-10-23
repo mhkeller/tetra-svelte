@@ -88,7 +88,7 @@ $: if (file) fileReader.readAsDataURL(file);
 		border-top-right-radius: 5px;
 	}
 	.open-camera:after {
-		content: 'Take picture!';
+		content: 'Take picture';
 		position: absolute;
 		color: #000;
 		top: 50%;
