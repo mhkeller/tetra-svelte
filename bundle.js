@@ -404,12 +404,12 @@ var app = (function () {
     	const block = {
     		c: function create() {
     			div = element("div");
-    			attr_dev(div, "class", div_class_value = "box " + (ctx.box.text === ctx.activeWord ? 'active' : '') + " svelte-14fm1i1");
-    			set_style(div, "left", "" + ctx.box.bbox.x0 + "px");
-    			set_style(div, "top", "" + ctx.box.bbox.y0 + "px");
-    			set_style(div, "width", "" + (ctx.box.bbox.x1 - ctx.box.bbox.x0) + "px");
-    			set_style(div, "height", "" + (ctx.box.bbox.y1 - ctx.box.bbox.y0) + "px");
-    			add_location(div, file, 24, 0, 367);
+    			attr_dev(div, "class", div_class_value = "box " + (ctx.box.description === ctx.activeWord ? 'active' : '') + " svelte-14fm1i1");
+    			set_style(div, "left", "" + ctx.box.boundingPoly.vertices[0].x + "px");
+    			set_style(div, "top", "" + ctx.box.boundingPoly.vertices[0].y + "px");
+    			set_style(div, "width", "" + (ctx.box.boundingPoly.vertices[1].x - ctx.box.boundingPoly.vertices[0].x) + "px");
+    			set_style(div, "height", "" + (ctx.box.boundingPoly.vertices[2].y - ctx.box.boundingPoly.vertices[0].y) + "px");
+    			add_location(div, file, 24, 0, 374);
     			dispose = listen_dev(div, "click", ctx.sendForTranslation);
     		},
 
@@ -422,15 +422,15 @@ var app = (function () {
     		},
 
     		p: function update(changed, ctx) {
-    			if ((changed.box || changed.activeWord) && div_class_value !== (div_class_value = "box " + (ctx.box.text === ctx.activeWord ? 'active' : '') + " svelte-14fm1i1")) {
+    			if ((changed.box || changed.activeWord) && div_class_value !== (div_class_value = "box " + (ctx.box.description === ctx.activeWord ? 'active' : '') + " svelte-14fm1i1")) {
     				attr_dev(div, "class", div_class_value);
     			}
 
     			if (changed.box) {
-    				set_style(div, "left", "" + ctx.box.bbox.x0 + "px");
-    				set_style(div, "top", "" + ctx.box.bbox.y0 + "px");
-    				set_style(div, "width", "" + (ctx.box.bbox.x1 - ctx.box.bbox.x0) + "px");
-    				set_style(div, "height", "" + (ctx.box.bbox.y1 - ctx.box.bbox.y0) + "px");
+    				set_style(div, "left", "" + ctx.box.boundingPoly.vertices[0].x + "px");
+    				set_style(div, "top", "" + ctx.box.boundingPoly.vertices[0].y + "px");
+    				set_style(div, "width", "" + (ctx.box.boundingPoly.vertices[1].x - ctx.box.boundingPoly.vertices[0].x) + "px");
+    				set_style(div, "height", "" + (ctx.box.boundingPoly.vertices[2].y - ctx.box.boundingPoly.vertices[0].y) + "px");
     			}
     		},
 
@@ -458,7 +458,7 @@ var app = (function () {
     	$$invalidate('activeWord', activeWord = val);
     });
     function sendForTranslation () {
-    	wordToTranslate.set(box.text);
+    	wordToTranslate.set(box.description);
     }
 
     	const writable_props = ['box'];
@@ -789,8 +789,8 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (126:1) {#if imageData}
-    function create_if_block_2(ctx) {
+    // (135:1) {#if imageData}
+    function create_if_block_3(ctx) {
     	var img, dispose;
 
     	const block = {
@@ -798,8 +798,8 @@ var app = (function () {
     			img = element("img");
     			attr_dev(img, "src", ctx.imageData);
     			attr_dev(img, "alt", "uploaded image");
-    			attr_dev(img, "class", "svelte-hbicmy");
-    			add_location(img, file_1, 126, 2, 2291);
+    			attr_dev(img, "class", "svelte-arhb7w");
+    			add_location(img, file_1, 135, 2, 2536);
     			dispose = listen_dev(img, "load", ctx.setDimensions);
     		},
 
@@ -823,11 +823,11 @@ var app = (function () {
     			dispose();
     		}
     	};
-    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block_2.name, type: "if", source: "(126:1) {#if imageData}", ctx });
+    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block_3.name, type: "if", source: "(135:1) {#if imageData}", ctx });
     	return block;
     }
 
-    // (137:2) {#if boxes}
+    // (146:2) {#if boxes}
     function create_if_block_1$1(ctx) {
     	var each_1_anchor, current;
 
@@ -914,12 +914,12 @@ var app = (function () {
     			}
     		}
     	};
-    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block_1$1.name, type: "if", source: "(137:2) {#if boxes}", ctx });
+    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block_1$1.name, type: "if", source: "(146:2) {#if boxes}", ctx });
     	return block;
     }
 
-    // (138:3) {#each boxes as box}
-    function create_each_block$1(ctx) {
+    // (148:4) {#if !box.locale}
+    function create_if_block_2(ctx) {
     	var current;
 
     	var box = new Box({
@@ -959,11 +959,72 @@ var app = (function () {
     			destroy_component(box, detaching);
     		}
     	};
-    	dispatch_dev("SvelteRegisterBlock", { block, id: create_each_block$1.name, type: "each", source: "(138:3) {#each boxes as box}", ctx });
+    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block_2.name, type: "if", source: "(148:4) {#if !box.locale}", ctx });
     	return block;
     }
 
-    // (147:0) {#if wtt}
+    // (147:3) {#each boxes as box}
+    function create_each_block$1(ctx) {
+    	var if_block_anchor, current;
+
+    	var if_block = (!ctx.box.locale) && create_if_block_2(ctx);
+
+    	const block = {
+    		c: function create() {
+    			if (if_block) if_block.c();
+    			if_block_anchor = empty();
+    		},
+
+    		m: function mount(target, anchor) {
+    			if (if_block) if_block.m(target, anchor);
+    			insert_dev(target, if_block_anchor, anchor);
+    			current = true;
+    		},
+
+    		p: function update(changed, ctx) {
+    			if (!ctx.box.locale) {
+    				if (if_block) {
+    					if_block.p(changed, ctx);
+    					transition_in(if_block, 1);
+    				} else {
+    					if_block = create_if_block_2(ctx);
+    					if_block.c();
+    					transition_in(if_block, 1);
+    					if_block.m(if_block_anchor.parentNode, if_block_anchor);
+    				}
+    			} else if (if_block) {
+    				group_outros();
+    				transition_out(if_block, 1, 1, () => {
+    					if_block = null;
+    				});
+    				check_outros();
+    			}
+    		},
+
+    		i: function intro(local) {
+    			if (current) return;
+    			transition_in(if_block);
+    			current = true;
+    		},
+
+    		o: function outro(local) {
+    			transition_out(if_block);
+    			current = false;
+    		},
+
+    		d: function destroy(detaching) {
+    			if (if_block) if_block.d(detaching);
+
+    			if (detaching) {
+    				detach_dev(if_block_anchor);
+    			}
+    		}
+    	};
+    	dispatch_dev("SvelteRegisterBlock", { block, id: create_each_block$1.name, type: "each", source: "(147:3) {#each boxes as box}", ctx });
+    	return block;
+    }
+
+    // (156:0) {#if wtt}
     function create_if_block$1(ctx) {
     	var current;
 
@@ -995,14 +1056,14 @@ var app = (function () {
     			destroy_component(translatedrawer, detaching);
     		}
     	};
-    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block$1.name, type: "if", source: "(147:0) {#if wtt}", ctx });
+    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block$1.name, type: "if", source: "(156:0) {#if wtt}", ctx });
     	return block;
     }
 
     function create_fragment$2(ctx) {
     	var div1, t0, div0, t1, t2, div2, input, current, dispose;
 
-    	var if_block0 = (ctx.imageData) && create_if_block_2(ctx);
+    	var if_block0 = (ctx.imageData) && create_if_block_3(ctx);
 
     	var if_block1 = (ctx.boxes) && create_if_block_1$1(ctx);
 
@@ -1020,20 +1081,20 @@ var app = (function () {
     			t2 = space();
     			div2 = element("div");
     			input = element("input");
-    			attr_dev(div0, "class", "image-overlay svelte-hbicmy");
-    			add_location(div0, file_1, 133, 1, 2402);
-    			attr_dev(div1, "class", "image-container svelte-hbicmy");
+    			attr_dev(div0, "class", "image-overlay svelte-arhb7w");
+    			add_location(div0, file_1, 142, 1, 2647);
+    			attr_dev(div1, "class", "image-container svelte-arhb7w");
     			set_style(div1, "width", "" + ctx.width + "px");
     			set_style(div1, "height", "" + ctx.height + "px");
-    			add_location(div1, file_1, 121, 0, 2196);
+    			add_location(div1, file_1, 130, 0, 2441);
     			attr_dev(input, "type", "file");
     			attr_dev(input, "capture", "camera");
     			attr_dev(input, "accept", "image/*");
     			attr_dev(input, "name", "cameraInput");
-    			attr_dev(input, "class", "svelte-hbicmy");
-    			add_location(input, file_1, 150, 1, 2597);
-    			attr_dev(div2, "class", "open-camera svelte-hbicmy");
-    			add_location(div2, file_1, 149, 0, 2570);
+    			attr_dev(input, "class", "svelte-arhb7w");
+    			add_location(input, file_1, 159, 1, 2866);
+    			attr_dev(div2, "class", "open-camera svelte-arhb7w");
+    			add_location(div2, file_1, 158, 0, 2839);
     			dispose = listen_dev(input, "change", ctx.input_change_handler);
     		},
 
@@ -1060,7 +1121,7 @@ var app = (function () {
     				if (if_block0) {
     					if_block0.p(changed, ctx);
     				} else {
-    					if_block0 = create_if_block_2(ctx);
+    					if_block0 = create_if_block_3(ctx);
     					if_block0.c();
     					if_block0.m(div1, t0);
     				}
@@ -1150,8 +1211,6 @@ var app = (function () {
     	return block;
     }
 
-    const lang = 'fra';
-
     function instance$2($$self, $$props, $$invalidate) {
     	
 
@@ -1162,25 +1221,11 @@ var app = (function () {
     let boxes;
     let wtt;
 
+    const ocrKey = window.localStorage.getItem('ocr_key');
+
     wordToTranslate.subscribe(val => {
     	$$invalidate('wtt', wtt = val);
     });
-
-    const worker = window.Tesseract.createWorker({
-    	logger: m => console.log(m)
-    });
-
-    async function init () {
-    	await worker.load();
-    	await worker.setParameters({
-    		tessjs_create_box: 1
-    	});
-    	await worker.loadLanguage(lang);
-    	await worker.initialize(lang);
-    	console.log('done initializing');
-    }
-
-    init();
 
     const fileReader = new window.FileReader();
     $$invalidate('fileReader', fileReader.onload = function () {
@@ -1197,10 +1242,33 @@ var app = (function () {
     		canvas.width = width;
     		canvas.height = height;
     		ctx.drawImage(image, 0, 0, width, height);
+    		const base64 = canvas.toDataURL().split(',')[1];
 
-    		const { data } = await worker.recognize(canvas);
-    		console.log(data.text);
-    		$$invalidate('boxes', boxes = data.words);
+    		const response = await window.fetch(`https://vision.googleapis.com/v1/images:annotate?key=${ocrKey}`, {
+    			method: 'POST',
+    			body: JSON.stringify({
+    				requests: [
+    					{
+    						image: {
+    							content: base64
+    						},
+    						features: [
+    							{
+    								type: 'TEXT_DETECTION'
+    							}
+    						],
+    						imageContext: {
+    							languageHints: ['fr']
+    						}
+    					}
+    				]
+    			})
+    		});
+    		const res = await response.json();
+
+    		// const { data } = await worker.recognize(canvas);
+    		console.log(res);
+    		$$invalidate('boxes', boxes = res.responses[0].textAnnotations);
     		// await worker.terminate();
     	})();
     }
