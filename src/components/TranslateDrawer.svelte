@@ -46,6 +46,7 @@ function destroy () {
 	input {
 		background-color: #f2f0ec;
 		border-radius: 5px;
+		width: 100%;
 	}
 	.translated-text {
 		display: flex;
@@ -55,7 +56,7 @@ function destroy () {
 		background-color: #99cc99;
 		position: absolute;
 		bottom: 0;
-		height: 10%;
+		height: 8%;
 		left: 0;
 		right: 0;
 		text-align: center;
@@ -68,7 +69,7 @@ function destroy () {
 		position: absolute;
 		color: #000;
 		top: 50%;
-		font-size: 22px;
+		font-size: 20px;
 		font-family: Helvetica, sans-serif;
 		left: 50%;
 		pointer-events: none;

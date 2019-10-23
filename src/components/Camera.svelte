@@ -72,7 +72,7 @@ $: if (file) fileReader.readAsDataURL(file);
 	.open-camera {
 		position: fixed;
 		width: 100%;
-		height: 10%;
+		height: 8%;
 		bottom: 0;
 		background-color: #6699cc;
 		border-top-left-radius: 5px;
@@ -83,7 +83,7 @@ $: if (file) fileReader.readAsDataURL(file);
 		position: absolute;
 		color: #fff;
 		top: 50%;
-		font-size: 22px;
+		font-size: 20px;
 		font-family: Helvetica, sans-serif;
 		left: 50%;
 		pointer-events: none;
