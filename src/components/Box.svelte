@@ -1,8 +1,14 @@
 <script>
-	export let box;
+import { wordToTranslate } from '../modules/stores.js';
+export let box;
 
-function log () {
-	console.log(box.text);
+let activeWord;
+
+wordToTranslate.subscribe(val => {
+	activeWord = val;
+});
+function sendForTranslation () {
+	wordToTranslate.set(box.text);
 }
 </script>
 
@@ -11,10 +17,13 @@ function log () {
 		position: absolute;
 		border: 1px solid red;
 	}
+	.active {
+		background-color: rgba(255, 0, 0, .35);
+	}
 </style>
 
 <div
-	class="box"
+	class="box {box.text === activeWord ? 'active' : ''}"
 	style="left: {box.bbox.x0}px; top: {box.bbox.y0}px; width: {box.bbox.x1 - box.bbox.x0}px; height: {box.bbox.y1 - box.bbox.y0}px"
-	on:click={log}
+	on:click={sendForTranslation}
 	></div>

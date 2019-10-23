@@ -1,15 +1,22 @@
 <script>
 // import scaleCanvas from '../modules/scaleCanvas.js';
 import Box from './Box.svelte';
+import TranslateDrawer from './TranslateDrawer.svelte';
 import { onMount } from 'svelte';
+import { wordToTranslate } from '../modules/stores.js';
 
 let image;
 let width;
 let height;
 let imageData;
 let boxes;
+let wtt;
 
 const lang = 'fra';
+
+wordToTranslate.subscribe(val => {
+	wtt = val;
+});
 
 const worker = window.Tesseract.createWorker({
 	logger: m => console.log(m)
@@ -127,12 +134,17 @@ $: if (file) fileReader.readAsDataURL(file);
 	>
 		{#if boxes}
 			{#each boxes as box}
-				<Box {box}/>
+				<Box
+					{box}
+				/>
 			{/each}
 		{/if}
 	</div>
 </div>
 
+{#if wtt}
+	<TranslateDrawer/>
+{/if}
 <div class="open-camera">
 	<input
 		type="file"
