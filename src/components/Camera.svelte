@@ -34,12 +34,18 @@ fileReader.onload = function () {
 
 function doOcr () {
 	(async () => {
-		console.log('recognizing');
-		console.log(image.width);
-		const { data } = await worker.recognize(image);
+		/* --------------------------------------------
+		 * Create a ghost canvas
+		 */
+		const canvas = document.createElement('canvas');
+		const ctx = canvas.getContext('2d');
+		canvas.width = width;
+		canvas.height = height;
+		ctx.drawImage(image, 0, 0, width, height);
+
+		const { data } = await worker.recognize(canvas);
 		console.log(data.text);
 		boxes = data.words;
-		console.log('boxes', boxes);
 		// await worker.terminate();
 	})();
 }
@@ -86,7 +92,7 @@ $: if (file) fileReader.readAsDataURL(file);
 
 	img {
 		max-width: 100%;
-		max-height: 90%;
+		max-height: 90vh;
 	}
 
 	.image-container {
