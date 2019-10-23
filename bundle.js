@@ -442,7 +442,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (111:1) {#if imageData}
+    // (117:1) {#if imageData}
     function create_if_block_1(ctx) {
     	var img, dispose;
 
@@ -451,8 +451,8 @@ var app = (function () {
     			img = element("img");
     			attr_dev(img, "src", ctx.imageData);
     			attr_dev(img, "alt", "uploaded image");
-    			attr_dev(img, "class", "svelte-10o2vxv");
-    			add_location(img, file_1, 111, 2, 1877);
+    			attr_dev(img, "class", "svelte-ugcgew");
+    			add_location(img, file_1, 117, 2, 2059);
     			dispose = listen_dev(img, "load", ctx.setDimensions);
     		},
 
@@ -476,11 +476,11 @@ var app = (function () {
     			dispose();
     		}
     	};
-    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block_1.name, type: "if", source: "(111:1) {#if imageData}", ctx });
+    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block_1.name, type: "if", source: "(117:1) {#if imageData}", ctx });
     	return block;
     }
 
-    // (122:2) {#if boxes}
+    // (128:2) {#if boxes}
     function create_if_block(ctx) {
     	var each_1_anchor, current;
 
@@ -567,11 +567,11 @@ var app = (function () {
     			}
     		}
     	};
-    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block.name, type: "if", source: "(122:2) {#if boxes}", ctx });
+    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block.name, type: "if", source: "(128:2) {#if boxes}", ctx });
     	return block;
     }
 
-    // (123:3) {#each boxes as box}
+    // (129:3) {#each boxes as box}
     function create_each_block(ctx) {
     	var current;
 
@@ -612,7 +612,7 @@ var app = (function () {
     			destroy_component(box, detaching);
     		}
     	};
-    	dispatch_dev("SvelteRegisterBlock", { block, id: create_each_block.name, type: "each", source: "(123:3) {#each boxes as box}", ctx });
+    	dispatch_dev("SvelteRegisterBlock", { block, id: create_each_block.name, type: "each", source: "(129:3) {#each boxes as box}", ctx });
     	return block;
     }
 
@@ -633,20 +633,20 @@ var app = (function () {
     			t1 = space();
     			div2 = element("div");
     			input = element("input");
-    			attr_dev(div0, "class", "image-overlay svelte-10o2vxv");
-    			add_location(div0, file_1, 118, 1, 1988);
-    			attr_dev(div1, "class", "image-container svelte-10o2vxv");
+    			attr_dev(div0, "class", "image-overlay svelte-ugcgew");
+    			add_location(div0, file_1, 124, 1, 2170);
+    			attr_dev(div1, "class", "image-container svelte-ugcgew");
     			set_style(div1, "width", "" + ctx.width + "px");
     			set_style(div1, "height", "" + ctx.height + "px");
-    			add_location(div1, file_1, 106, 0, 1782);
+    			add_location(div1, file_1, 112, 0, 1964);
     			attr_dev(input, "type", "file");
     			attr_dev(input, "capture", "camera");
     			attr_dev(input, "accept", "image/*");
     			attr_dev(input, "name", "cameraInput");
-    			attr_dev(input, "class", "svelte-10o2vxv");
-    			add_location(input, file_1, 130, 1, 2137);
-    			attr_dev(div2, "class", "open-camera svelte-10o2vxv");
-    			add_location(div2, file_1, 129, 0, 2110);
+    			attr_dev(input, "class", "svelte-ugcgew");
+    			add_location(input, file_1, 136, 1, 2319);
+    			attr_dev(div2, "class", "open-camera svelte-ugcgew");
+    			add_location(div2, file_1, 135, 0, 2292);
     			dispose = listen_dev(input, "change", ctx.input_change_handler);
     		},
 
@@ -772,12 +772,18 @@ var app = (function () {
 
     function doOcr () {
     	(async () => {
-    		console.log('recognizing');
-    		console.log(image.width);
-    		const { data } = await worker.recognize(image);
+    		/* --------------------------------------------
+    		 * Create a ghost canvas
+    		 */
+    		const canvas = document.createElement('canvas');
+    		const ctx = canvas.getContext('2d');
+    		canvas.width = width;
+    		canvas.height = height;
+    		ctx.drawImage(image, 0, 0, width, height);
+
+    		const { data } = await worker.recognize(canvas);
     		console.log(data.text);
     		$$invalidate('boxes', boxes = data.words);
-    		console.log('boxes', boxes);
     		// await worker.terminate();
     	})();
     }
