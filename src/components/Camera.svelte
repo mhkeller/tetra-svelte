@@ -83,8 +83,10 @@ $: if (file) fileReader.readAsDataURL(file);
 		position: absolute;
 		color: #fff;
 		top: 50%;
+		font-size: 22px;
+		font-family: Helvetica, sans-serif;
 		left: 50%;
-		font-weight: bold;
+		pointer-events: none;
 		transform: translate(-50%, -50%);
 	}
 	.open-camera:hover {
