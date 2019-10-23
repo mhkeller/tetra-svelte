@@ -798,8 +798,8 @@ var app = (function () {
     			img = element("img");
     			attr_dev(img, "src", ctx.imageData);
     			attr_dev(img, "alt", "uploaded image");
-    			attr_dev(img, "class", "svelte-arhb7w");
-    			add_location(img, file_1, 135, 2, 2536);
+    			attr_dev(img, "class", "svelte-yyj1or");
+    			add_location(img, file_1, 135, 2, 2537);
     			dispose = listen_dev(img, "load", ctx.setDimensions);
     		},
 
@@ -1081,20 +1081,20 @@ var app = (function () {
     			t2 = space();
     			div2 = element("div");
     			input = element("input");
-    			attr_dev(div0, "class", "image-overlay svelte-arhb7w");
-    			add_location(div0, file_1, 142, 1, 2647);
-    			attr_dev(div1, "class", "image-container svelte-arhb7w");
+    			attr_dev(div0, "class", "image-overlay svelte-yyj1or");
+    			add_location(div0, file_1, 142, 1, 2648);
+    			attr_dev(div1, "class", "image-container svelte-yyj1or");
     			set_style(div1, "width", "" + ctx.width + "px");
     			set_style(div1, "height", "" + ctx.height + "px");
-    			add_location(div1, file_1, 130, 0, 2441);
+    			add_location(div1, file_1, 130, 0, 2442);
     			attr_dev(input, "type", "file");
     			attr_dev(input, "capture", "camera");
     			attr_dev(input, "accept", "image/*");
     			attr_dev(input, "name", "cameraInput");
-    			attr_dev(input, "class", "svelte-arhb7w");
-    			add_location(input, file_1, 159, 1, 2866);
-    			attr_dev(div2, "class", "open-camera svelte-arhb7w");
-    			add_location(div2, file_1, 158, 0, 2839);
+    			attr_dev(input, "class", "svelte-yyj1or");
+    			add_location(input, file_1, 159, 1, 2867);
+    			attr_dev(div2, "class", "open-camera svelte-yyj1or");
+    			add_location(div2, file_1, 158, 0, 2840);
     			dispose = listen_dev(input, "change", ctx.input_change_handler);
     		},
 
