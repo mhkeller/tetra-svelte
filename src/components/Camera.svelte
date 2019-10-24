@@ -119,7 +119,7 @@ function setDimensions () {
 }
 
 function resetOrientation (srcBase64, width, height, srcOrientation) {
-	// var canvas = document.createElement('canvas');
+	var canvas = document.createElement('canvas');
 	const ctx = canvas.getContext('2d');
 
 	// set proper canvas dimensions before transform & export
@@ -194,7 +194,7 @@ $: if (file) fileReaderBase64.readAsDataURL(file);
 	img {
 		max-width: 100%;
 		max-height: 90vh;
-		visibility: hidden;
+		/*visibility: hidden;*/
 	}
 
 	.image-container {
@@ -228,7 +228,7 @@ $: if (file) fileReaderBase64.readAsDataURL(file);
 			bind:this={image}
 			on:load={setDimensions}
 		/>
-		<canvas bind:this={canvas}></canvas>
+		<!-- <canvas bind:this={canvas}></canvas> -->
 	{/if}
 	<div
 		class="image-overlay"
