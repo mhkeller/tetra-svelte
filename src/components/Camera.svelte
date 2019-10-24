@@ -74,7 +74,7 @@ function doOcr () {
 		/* --------------------------------------------
 		 * Create a ghost canvas
 		 */
-		// console.log('srcoriientation', srcOrientation);
+		console.log('srcoriientation', srcOrientation);
 		const base64 = resetOrientation(imageData, width, height, srcOrientation).split(',')[1];
 		// const canvas = document.createElement('canvas');
 		// const ctx = canvas.getContext('2d');
@@ -171,7 +171,7 @@ $: if (file) fileReaderBase64.readAsDataURL(file);
 		border-top-right-radius: 5px;
 	}
 	.open-camera:after {
-		content: 'Take picture';
+		content: 'Take picture!';
 		position: absolute;
 		color: #000;
 		top: 50%;

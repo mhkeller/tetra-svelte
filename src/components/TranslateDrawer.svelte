@@ -8,7 +8,7 @@ const sourceLang = 'fr';
 const targetLang = 'en';
 
 const key = window.localStorage.getItem('translate_key');
-
+console.log('key', key);
 wordToTranslate.subscribe(val => {
 	wtt = val;
 	doTranslation(val);
@@ -21,7 +21,7 @@ async function doTranslation (val) {
 	const res = await response.json();
 	console.log(res);
 	translations = res.data.translations;
-};
+}
 
 function destroy () {
 	wtt = null;
