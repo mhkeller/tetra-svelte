@@ -26,6 +26,7 @@ const fileReader = new window.FileReader();
 const fileReaderBase64 = new window.FileReader();
 fileReaderBase64.onload = function () {
 	imageData = fileReaderBase64.result;
+	console.log('loaded');
 };
 
 fileReader.onload = function (e) {
@@ -66,7 +67,6 @@ fileReader.onload = function (e) {
 		}
 	}
 	srcOrientation = -1;
-	// imageData = URL.createObjectURL(e.target.result);
 };
 
 function doOcr () {
@@ -74,7 +74,7 @@ function doOcr () {
 		/* --------------------------------------------
 		 * Create a ghost canvas
 		 */
-		console.log('srcoriientation', srcOrientation);
+		// console.log('srcoriientation', srcOrientation);
 		const base64 = resetOrientation(imageData, width, height, srcOrientation).split(',')[1];
 		// const canvas = document.createElement('canvas');
 		// const ctx = canvas.getContext('2d');
@@ -145,12 +145,10 @@ function resetOrientation (srcBase64, width, height, srcOrientation) {
 	}
 
 	// draw image
-	console.log(image);
-	console.log(srcBase64);
 	ctx.drawImage(image, 0, 0, width, height);
 
 	// export base64
-	console.log(canvas.toDataURL());
+	// console.log(canvas.toDataURL());
 	return canvas.toDataURL();
 }
 
@@ -230,7 +228,7 @@ $: if (file) fileReaderBase64.readAsDataURL(file);
 			bind:this={image}
 			on:load={setDimensions}
 		/>
-		<canvas bind:this={canvas} {width} {height}></canvas>
+		<canvas bind:this={canvas}></canvas>
 	{/if}
 	<div
 		class="image-overlay"

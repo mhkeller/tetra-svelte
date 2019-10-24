@@ -789,7 +789,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (226:1) {#if imageData}
+    // (224:1) {#if imageData}
     function create_if_block_3(ctx) {
     	var img, t, canvas_1, dispose;
 
@@ -801,11 +801,9 @@ var app = (function () {
     			attr_dev(img, "src", ctx.imageData);
     			attr_dev(img, "alt", "uploaded image");
     			attr_dev(img, "class", "svelte-1aucw1i");
-    			add_location(img, file_1, 226, 2, 5125);
-    			attr_dev(canvas_1, "width", ctx.width);
-    			attr_dev(canvas_1, "height", ctx.height);
+    			add_location(img, file_1, 224, 2, 5055);
     			attr_dev(canvas_1, "class", "svelte-1aucw1i");
-    			add_location(canvas_1, file_1, 232, 2, 5230);
+    			add_location(canvas_1, file_1, 230, 2, 5160);
     			dispose = listen_dev(img, "load", ctx.setDimensions);
     		},
 
@@ -820,14 +818,6 @@ var app = (function () {
     		p: function update(changed, ctx) {
     			if (changed.imageData) {
     				attr_dev(img, "src", ctx.imageData);
-    			}
-
-    			if (changed.width) {
-    				attr_dev(canvas_1, "width", ctx.width);
-    			}
-
-    			if (changed.height) {
-    				attr_dev(canvas_1, "height", ctx.height);
     			}
     		},
 
@@ -847,11 +837,11 @@ var app = (function () {
     			dispose();
     		}
     	};
-    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block_3.name, type: "if", source: "(226:1) {#if imageData}", ctx });
+    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block_3.name, type: "if", source: "(224:1) {#if imageData}", ctx });
     	return block;
     }
 
-    // (238:2) {#if boxes}
+    // (236:2) {#if boxes}
     function create_if_block_1$1(ctx) {
     	var each_1_anchor, current;
 
@@ -938,11 +928,11 @@ var app = (function () {
     			}
     		}
     	};
-    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block_1$1.name, type: "if", source: "(238:2) {#if boxes}", ctx });
+    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block_1$1.name, type: "if", source: "(236:2) {#if boxes}", ctx });
     	return block;
     }
 
-    // (240:4) {#if !box.locale}
+    // (238:4) {#if !box.locale}
     function create_if_block_2(ctx) {
     	var current;
 
@@ -983,11 +973,11 @@ var app = (function () {
     			destroy_component(box, detaching);
     		}
     	};
-    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block_2.name, type: "if", source: "(240:4) {#if !box.locale}", ctx });
+    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block_2.name, type: "if", source: "(238:4) {#if !box.locale}", ctx });
     	return block;
     }
 
-    // (239:3) {#each boxes as box}
+    // (237:3) {#each boxes as box}
     function create_each_block$1(ctx) {
     	var if_block_anchor, current;
 
@@ -1044,11 +1034,11 @@ var app = (function () {
     			}
     		}
     	};
-    	dispatch_dev("SvelteRegisterBlock", { block, id: create_each_block$1.name, type: "each", source: "(239:3) {#each boxes as box}", ctx });
+    	dispatch_dev("SvelteRegisterBlock", { block, id: create_each_block$1.name, type: "each", source: "(237:3) {#each boxes as box}", ctx });
     	return block;
     }
 
-    // (248:0) {#if wtt}
+    // (246:0) {#if wtt}
     function create_if_block$1(ctx) {
     	var current;
 
@@ -1080,7 +1070,7 @@ var app = (function () {
     			destroy_component(translatedrawer, detaching);
     		}
     	};
-    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block$1.name, type: "if", source: "(248:0) {#if wtt}", ctx });
+    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block$1.name, type: "if", source: "(246:0) {#if wtt}", ctx });
     	return block;
     }
 
@@ -1106,19 +1096,19 @@ var app = (function () {
     			div2 = element("div");
     			input = element("input");
     			attr_dev(div0, "class", "image-overlay svelte-1aucw1i");
-    			add_location(div0, file_1, 234, 1, 5292);
+    			add_location(div0, file_1, 232, 1, 5205);
     			attr_dev(div1, "class", "image-container svelte-1aucw1i");
     			set_style(div1, "width", "" + ctx.width + "px");
     			set_style(div1, "height", "" + ctx.height + "px");
-    			add_location(div1, file_1, 221, 0, 5030);
+    			add_location(div1, file_1, 219, 0, 4960);
     			attr_dev(input, "type", "file");
     			attr_dev(input, "capture", "camera");
     			attr_dev(input, "accept", "image/*");
     			attr_dev(input, "name", "cameraInput");
     			attr_dev(input, "class", "svelte-1aucw1i");
-    			add_location(input, file_1, 251, 1, 5511);
+    			add_location(input, file_1, 249, 1, 5424);
     			attr_dev(div2, "class", "open-camera svelte-1aucw1i");
-    			add_location(div2, file_1, 250, 0, 5484);
+    			add_location(div2, file_1, 248, 0, 5397);
     			dispose = listen_dev(input, "change", ctx.input_change_handler);
     		},
 
@@ -1259,6 +1249,7 @@ var app = (function () {
     const fileReaderBase64 = new window.FileReader();
     $$invalidate('fileReaderBase64', fileReaderBase64.onload = function () {
     	$$invalidate('imageData', imageData = fileReaderBase64.result);
+    	console.log('loaded');
     }, fileReaderBase64);
 
     $$invalidate('fileReader', fileReader.onload = function (e) {
@@ -1299,7 +1290,6 @@ var app = (function () {
     		}
     	}
     	srcOrientation = -1;
-    	// imageData = URL.createObjectURL(e.target.result);
     }, fileReader);
 
     function doOcr () {
@@ -1307,7 +1297,7 @@ var app = (function () {
     		/* --------------------------------------------
     		 * Create a ghost canvas
     		 */
-    		console.log('srcoriientation', srcOrientation);
+    		// console.log('srcoriientation', srcOrientation);
     		const base64 = resetOrientation(imageData, width, height, srcOrientation).split(',')[1];
     		// const canvas = document.createElement('canvas');
     		// const ctx = canvas.getContext('2d');
@@ -1377,12 +1367,10 @@ var app = (function () {
     	}
 
     	// draw image
-    	console.log(image);
-    	console.log(srcBase64);
     	ctx.drawImage(image, 0, 0, width, height);
 
     	// export base64
-    	console.log(canvas.toDataURL());
+    	// console.log(canvas.toDataURL());
     	return canvas.toDataURL();
     }
 
