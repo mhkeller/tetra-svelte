@@ -7,7 +7,7 @@ let translations;
 const sourceLang = 'fr';
 const targetLang = 'en';
 
-const key = window.localStorage.getItem('googleKey');
+const key = window.localStorage.getItem('translate_key');
 
 wordToTranslate.subscribe(val => {
 	wtt = val;
