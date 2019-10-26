@@ -522,7 +522,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (95:0) {#if wtt !== null}
+    // (97:0) {#if wtt !== null}
     function create_if_block(ctx) {
     	var div2, input_1, t0, div0, t1, div1, dispose;
 
@@ -539,13 +539,13 @@ var app = (function () {
     			div1 = element("div");
     			attr_dev(input_1, "type", "search");
     			attr_dev(input_1, "class", "svelte-1bkgvhh");
-    			add_location(input_1, file$1, 98, 2, 1797);
+    			add_location(input_1, file$1, 100, 2, 1857);
     			attr_dev(div0, "class", "translated-text svelte-1bkgvhh");
-    			add_location(div0, file$1, 99, 2, 1894);
+    			add_location(div0, file$1, 101, 2, 1954);
     			attr_dev(div1, "class", "close-btn svelte-1bkgvhh");
-    			add_location(div1, file$1, 108, 2, 2103);
+    			add_location(div1, file$1, 110, 2, 2163);
     			attr_dev(div2, "class", "translate-drawer svelte-1bkgvhh");
-    			add_location(div2, file$1, 95, 1, 1760);
+    			add_location(div2, file$1, 97, 1, 1820);
 
     			dispose = [
     				listen_dev(input_1, "input", ctx.input_handler),
@@ -589,11 +589,11 @@ var app = (function () {
     			run_all(dispose);
     		}
     	};
-    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block.name, type: "if", source: "(95:0) {#if wtt !== null}", ctx });
+    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block.name, type: "if", source: "(97:0) {#if wtt !== null}", ctx });
     	return block;
     }
 
-    // (103:3) {#if translations}
+    // (105:3) {#if translations}
     function create_if_block_1(ctx) {
     	var each_1_anchor;
 
@@ -654,11 +654,11 @@ var app = (function () {
     			}
     		}
     	};
-    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block_1.name, type: "if", source: "(103:3) {#if translations}", ctx });
+    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block_1.name, type: "if", source: "(105:3) {#if translations}", ctx });
     	return block;
     }
 
-    // (104:4) {#each translations as translation}
+    // (106:4) {#each translations as translation}
     function create_each_block(ctx) {
     	var div, t_value = sanitize(ctx.translation.translatedText) + "", t;
 
@@ -667,7 +667,7 @@ var app = (function () {
     			div = element("div");
     			t = text(t_value);
     			attr_dev(div, "class", "translated-word");
-    			add_location(div, file$1, 104, 5, 1997);
+    			add_location(div, file$1, 106, 5, 2057);
     		},
 
     		m: function mount(target, anchor) {
@@ -687,7 +687,7 @@ var app = (function () {
     			}
     		}
     	};
-    	dispatch_dev("SvelteRegisterBlock", { block, id: create_each_block.name, type: "each", source: "(104:4) {#each translations as translation}", ctx });
+    	dispatch_dev("SvelteRegisterBlock", { block, id: create_each_block.name, type: "each", source: "(106:4) {#each translations as translation}", ctx });
     	return block;
     }
 
@@ -746,7 +746,7 @@ var app = (function () {
     const targetLang = 'en';
 
     function sanitize (val) {
-    return val.replace(/(\.|!|\?|,)/g, '');
+    return typeof val === 'string' ? val.replace(/(\.|!|\?|,)/g, '') : val;
     }
 
     function instance$1($$self, $$props, $$invalidate) {
@@ -761,7 +761,9 @@ var app = (function () {
     onMount(() => {
     	wordToTranslate.subscribe(val => {
     		if (document.activeElement !== input) {
-    			$$invalidate('input', input.value = sanitize(val), input);
+    			if (input) {
+    				$$invalidate('input', input.value = sanitize(val) || '', input);
+    			}
     		}
     		$$invalidate('wtt', wtt = val);
     		doTranslation(val);

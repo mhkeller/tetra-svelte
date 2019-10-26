@@ -14,7 +14,9 @@ const key = window.localStorage.getItem('translate_key');
 onMount(() => {
 	wordToTranslate.subscribe(val => {
 		if (document.activeElement !== input) {
-			input.value = sanitize(val);
+			if (input) {
+				input.value = sanitize(val) || '';
+			}
 		}
 		wtt = val;
 		doTranslation(val);
@@ -35,7 +37,7 @@ function destroy () {
 }
 
 function sanitize (val) {
-	return val.replace(/(\.|!|\?|,)/g, '');
+	return typeof val === 'string' ? val.replace(/(\.|!|\?|,)/g, '') : val;
 }
 </script>
 
