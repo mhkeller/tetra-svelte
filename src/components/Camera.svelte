@@ -8,7 +8,7 @@ import { wordToTranslate } from '../modules/stores.js';
 let width;
 let height;
 let boxes;
-let wtt;
+let wtt = null;
 let imageContainer;
 let canvasContainer;
 
@@ -19,7 +19,6 @@ const ocrKey = window.localStorage.getItem('ocr_key');
 
 wordToTranslate.subscribe(val => {
 	wtt = val;
-	console.log('val', val);
 });
 
 function imageLoaded (canvas) {
@@ -142,7 +141,7 @@ $: if (file) window.loadImage(file, imageLoaded, options);
 	class="image-container"
 	style="width:{width}px; height:{height}px;"
 	bind:this={imageContainer}
-	class:wtt={!!wtt}
+	class:wtt={wtt !== null}
 >
 	<div bind:this={canvasContainer}></div>
 	<div
@@ -158,7 +157,7 @@ $: if (file) window.loadImage(file, imageLoaded, options);
 	</div>
 </div>
 
-{#if wtt}
+{#if wtt !== null}
 	<TranslateDrawer/>
 {/if}
 <div class="open-camera">

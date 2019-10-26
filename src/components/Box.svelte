@@ -7,6 +7,7 @@ let activeWord;
 wordToTranslate.subscribe(val => {
 	activeWord = val;
 });
+
 function sendForTranslation () {
 	wordToTranslate.set(box.description);
 }

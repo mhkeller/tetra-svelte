@@ -1,17 +1,24 @@
 <script>
 import { wordToTranslate } from '../modules/stores.js';
+import { onMount } from 'svelte';
 
 let wtt;
 let translations;
+let input;
 
 const sourceLang = 'fr';
 const targetLang = 'en';
 
 const key = window.localStorage.getItem('translate_key');
-console.log('key', key);
-wordToTranslate.subscribe(val => {
-	wtt = val;
-	doTranslation(val);
+
+onMount(() => {
+	wordToTranslate.subscribe(val => {
+		if (document.activeElement !== input) {
+			input.value = sanitize(val);
+		}
+		wtt = val;
+		doTranslation(val);
+	});
 });
 
 async function doTranslation (val) {
@@ -19,12 +26,16 @@ async function doTranslation (val) {
 		method: 'POST'
 	});
 	const res = await response.json();
-	console.log(res);
 	translations = res.data.translations;
 }
 
 function destroy () {
+	input.value = null;
 	wordToTranslate.set(null);
+}
+
+function sanitize (val) {
+	return val.replace(/(\.|!|\?|,)/g, '');
 }
 </script>
 
@@ -33,9 +44,7 @@ function destroy () {
 		background-color: #e8e5de;
 		color: #000;
 		padding: 20px;
-/*		border-top-left-radius: 5px;
-		border-top-right-radius: 5px;
-*/		position: absolute;
+		position: absolute;
 		left: 0;
 		right: 0;
 		bottom: 0;
@@ -83,17 +92,17 @@ function destroy () {
 	}
 </style>
 
-{#if wtt}
+{#if wtt !== null}
 	<div
 		class="translate-drawer"
 	>
-		<input type="search" value="{wtt}"/>
+		<input bind:this={input} type="search" on:input={(e) => wordToTranslate.set(e.target.value)}/>
 		<div
 			class="translated-text"
 		>
 			{#if translations}
 				{#each translations as translation}
-					<div class="translated-word">{translation.translatedText}</div>
+					<div class="translated-word">{sanitize(translation.translatedText)}</div>
 				{/each}
 			{/if}
 		</div>
