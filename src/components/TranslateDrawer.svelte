@@ -24,7 +24,7 @@ async function doTranslation (val) {
 }
 
 function destroy () {
-	wtt = null;
+	wordToTranslate.set(null);
 }
 </script>
 
@@ -33,15 +33,14 @@ function destroy () {
 		background-color: #e8e5de;
 		color: #000;
 		padding: 20px;
-		border-top-left-radius: 5px;
+/*		border-top-left-radius: 5px;
 		border-top-right-radius: 5px;
-		position: absolute;
+*/		position: absolute;
 		left: 0;
 		right: 0;
 		bottom: 0;
 		top: 70%;
 		z-index: 9;
-		box-shadow: 0 0 12px #000;
 	}
 	input {
 		background-color: #f2f0ec;
@@ -56,7 +55,7 @@ function destroy () {
 		background-color: #99cc99;
 		position: absolute;
 		bottom: 0;
-		height: 8%;
+		height: 2%;
 		left: 0;
 		right: 0;
 		text-align: center;

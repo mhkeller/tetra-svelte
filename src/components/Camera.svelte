@@ -5,84 +5,34 @@ import TranslateDrawer from './TranslateDrawer.svelte';
 import { onMount } from 'svelte';
 import { wordToTranslate } from '../modules/stores.js';
 
-let image;
 let width;
 let height;
-let imageData;
 let boxes;
 let wtt;
-let canvas;
+let imageContainer;
+let canvasContainer;
 
 const lang = 'fr';
-let srcOrientation;
+// let srcOrientation;
 
 const ocrKey = window.localStorage.getItem('ocr_key');
 
 wordToTranslate.subscribe(val => {
 	wtt = val;
+	console.log('val', val);
 });
 
-const fileReader = new window.FileReader();
-const fileReaderBase64 = new window.FileReader();
-fileReaderBase64.onload = function () {
-	imageData = fileReaderBase64.result;
-	console.log('loaded');
-};
+function imageLoaded (canvas) {
+	canvasContainer.appendChild(canvas);
+	width = canvas.style.width.replace('px', '');
+	height = canvas.style.height.replace('px', '');
 
-fileReader.onload = function (e) {
-	var view = new DataView(e.target.result);
+	const base64 = canvas.toDataURL().split(',')[1];
+	doOcr(base64);
+}
 
-	if (view.getUint16(0, false) !== 0xFFD8) {
-		srcOrientation = -2;
-		return;
-	}
-
-	var length = view.byteLength;
-	var offset = 2;
-
-	while (offset < length) {
-		var marker = view.getUint16(offset, false);
-		offset += 2;
-
-		if (marker === 0xFFE1) {
-			if (view.getUint32(offset += 2, false) !== 0x45786966) {
-				srcOrientation = -1;
-				return;
-			}
-			var little = view.getUint16(offset += 6, false) === 0x4949;
-			offset += view.getUint32(offset + 4, little);
-			var tags = view.getUint16(offset, little);
-			offset += 2;
-
-			for (var i = 0; i < tags; i++) {
-				if (view.getUint16(offset + (i * 12), little) === 0x0112) {
-					srcOrientation = view.getUint16(offset + (i * 12) + 8, little);
-					return;
-				}
-			}
-		} else if ((marker & 0xFF00) !== 0xFF00) {
-			break;
-		} else {
-			offset += view.getUint16(offset, false);
-		}
-	}
-	srcOrientation = -1;
-};
-
-function doOcr () {
+function doOcr (base64) {
 	(async () => {
-		/* --------------------------------------------
-		 * Create a ghost canvas
-		 */
-		console.log('srcoriientation', srcOrientation);
-		const base64 = resetOrientation(imageData, width, height, srcOrientation).split(',')[1];
-		// const canvas = document.createElement('canvas');
-		// const ctx = canvas.getContext('2d');
-		// canvas.width = width;
-		// canvas.height = height;
-		// ctx.drawImage(image, 0, 0, width, height);
-		// const base64 = canvas.toDataURL().split(',')[1];
-
 		const response = await window.fetch(`https://vision.googleapis.com/v1/images:annotate?key=${ocrKey}`, {
 			method: 'POST',
 			body: JSON.stringify({
@@ -112,52 +62,18 @@ function doOcr () {
 	})();
 }
 
-function setDimensions () {
-	console.log('setting dimensions');
-	({ width, height } = this);
-	doOcr();
-}
-
-function resetOrientation (srcBase64, width, height, srcOrientation) {
-	// var canvas = document.createElement('canvas');
-	const ctx = canvas.getContext('2d');
-
-	// set proper canvas dimensions before transform & export
-	// scaleCanvas(canvas, ctx, width, height);
-	if (srcOrientation > 4 && srcOrientation < 9) {
-		canvas.width = height;
-		canvas.height = width;
-	} else {
-		canvas.width = width;
-		canvas.height = height;
-	}
-
-	// transform context before drawing image
-	switch (srcOrientation) {
-		case 2: ctx.transform(-1, 0, 0, 1, width, 0); break;
-		case 3: ctx.transform(-1, 0, 0, -1, width, height); break;
-		case 4: ctx.transform(1, 0, 0, -1, 0, height); break;
-		case 5: ctx.transform(0, 1, 1, 0, 0, 0); break;
-		case 6: ctx.transform(0, 1, -1, 0, height, 0); break;
-		case 7: ctx.transform(0, -1, -1, 0, height, width); break;
-		case 8: ctx.transform(0, -1, 1, 0, 0, width); break;
-		default: break;
-	}
-
-	// draw image
-	ctx.drawImage(image, 0, 0, width, height);
-
-	// export base64
-	// console.log(canvas.toDataURL());
-	return canvas.toDataURL();
-}
-
 let files = [];
+const options = {
+	maxWidth: window.innerWidth,
+	maxHeight: window.innerHeight * 0.92,
+	// pixelRatio: window.devicePixelRatio,
+	canvas: true,
+	orientation: true,
+	cover: true
+};
 
 $: file = files[0];
-// $: if (file) imageData = URL.createObjectURL(file);
-$: if (file) fileReader.readAsArrayBuffer(file.slice(0, 64 * 1024));
-$: if (file) fileReaderBase64.readAsDataURL(file);
+$: if (file) window.loadImage(file, imageLoaded, options);
 </script>
 
 <style>
@@ -201,6 +117,8 @@ $: if (file) fileReaderBase64.readAsDataURL(file);
 		position: relative;
 		left: 50%;
 		transform: translate(-50%, 0);
+		overflow-y: scroll;
+		overflow-x: hidden;
 	}
 
 	canvas{
@@ -215,21 +133,18 @@ $: if (file) fileReaderBase64.readAsDataURL(file);
 		width: 100%;
 		height: 100%;
 	}
+	.wtt {
+		height: 70% !important;
+	}
 </style>
 
 <div
 	class="image-container"
-	style="width:{width}px; height:{height}px"
+	style="width:{width}px; height:{height}px;"
+	bind:this={imageContainer}
+	class:wtt={!!wtt}
 >
-	{#if imageData}
-		<img
-			src="{imageData}"
-			alt="uploaded image"
-			bind:this={image}
-			on:load={setDimensions}
-		/>
-		<canvas bind:this={canvas}></canvas>
-	{/if}
+	<div bind:this={canvasContainer}></div>
 	<div
 		class="image-overlay"
 	>
