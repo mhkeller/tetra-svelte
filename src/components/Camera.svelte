@@ -22,8 +22,12 @@ wordToTranslate.subscribe(val => {
 });
 
 function imageLoaded (canvas) {
+	// This doesn't seem to clear the contents
 	canvasContainer.innerHTML = '';
+	console.log(canvasContainer);
+	boxes = null;
 	canvasContainer.appendChild(canvas);
+	// This doesn't asign values to `width` or `height`
 	width = canvas.style.width.replace('px', '');
 	height = canvas.style.height.replace('px', '');
 
@@ -72,8 +76,10 @@ const options = {
 	cover: true
 };
 
-$: file = files[0];
-$: if (file) window.loadImage(file, imageLoaded, options);
+onMount(() => {
+	$: file = files[0];
+	$: if (file) window.loadImage(file, imageLoaded, options);
+});
 </script>
 
 <style>
