@@ -22,6 +22,7 @@ wordToTranslate.subscribe(val => {
 });
 
 function imageLoaded (canvas) {
+	canvasContainer.innerHTML = '';
 	canvasContainer.appendChild(canvas);
 	width = canvas.style.width.replace('px', '');
 	height = canvas.style.height.replace('px', '');
