@@ -15,16 +15,22 @@ function sendForTranslation () {
 
 <style>
 	.box {
-		position: absolute;
-		border: 1px solid red;
+		fill: transparent;
+		stoke-width: 1px;
+		stroke: red;
 	}
 	.active {
-		background-color: rgba(255, 0, 0, .35);
+		fill: rgba(255, 0, 0, .35);
 	}
 </style>
 
-<div
+<svelte:options namespace='svg'/>
+
+<rect
 	class="box {box.description === activeWord ? 'active' : ''}"
-	style="left: {box.boundingPoly.vertices[0].x}px; top: {box.boundingPoly.vertices[0].y}px; width: {box.boundingPoly.vertices[1].x - box.boundingPoly.vertices[0].x}px; height: {box.boundingPoly.vertices[2].y - box.boundingPoly.vertices[0].y}px"
+	x={box.boundingPoly.vertices[0].x}
+	y={box.boundingPoly.vertices[0].y}
+	width={box.boundingPoly.vertices[1].x - box.boundingPoly.vertices[0].x}
+	height={box.boundingPoly.vertices[2].y - box.boundingPoly.vertices[0].y}
 	on:click={sendForTranslation}
-	></div>
+	></rect>

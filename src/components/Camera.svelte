@@ -22,10 +22,11 @@ wordToTranslate.subscribe(val => {
 });
 
 function imageLoaded (canvas) {
+	canvasContainer.innerHTML = '';
 	canvasContainer.appendChild(canvas);
 	width = canvas.style.width.replace('px', '');
 	height = canvas.style.height.replace('px', '');
-
+	console.log('aaaa', width, height);
 	const base64 = canvas.toDataURL().split(',')[1];
 	doOcr(base64);
 }
@@ -65,7 +66,6 @@ let files = [];
 const options = {
 	maxWidth: window.innerWidth,
 	maxHeight: window.innerHeight * 0.92,
-	// pixelRatio: window.devicePixelRatio,
 	canvas: true,
 	orientation: true,
 	cover: true
@@ -143,9 +143,14 @@ $: if (file) window.loadImage(file, imageLoaded, options);
 	bind:this={imageContainer}
 	class:wtt={wtt !== null}
 >
-	<div bind:this={canvasContainer}></div>
+	<div class="canvas-container" bind:this={canvasContainer}></div>
 	<div
 		class="image-overlay"
+	>
+	<svg
+		{width}
+		{height}
+		xmlns="http://www.w3.org/2000/svg"
 	>
 		{#if boxes}
 			{#each boxes as box}
@@ -154,6 +159,7 @@ $: if (file) window.loadImage(file, imageLoaded, options);
 				{/if}
 			{/each}
 		{/if}
+	</svg>
 	</div>
 </div>
 

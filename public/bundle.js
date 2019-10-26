@@ -43,6 +43,9 @@ var app = (function () {
     function element(name) {
         return document.createElement(name);
     }
+    function svg_element(name) {
+        return document.createElementNS('http://www.w3.org/2000/svg', name);
+    }
     function text(data) {
         return document.createTextNode(data);
     }
@@ -406,18 +409,18 @@ var app = (function () {
     const file = "src/components/Box.svelte";
 
     function create_fragment(ctx) {
-    	var div, div_class_value, dispose;
+    	var rect, rect_class_value, rect_x_value, rect_y_value, rect_width_value, rect_height_value, dispose;
 
     	const block = {
     		c: function create() {
-    			div = element("div");
-    			attr_dev(div, "class", div_class_value = "box " + (ctx.box.description === ctx.activeWord ? 'active' : '') + " svelte-14fm1i1");
-    			set_style(div, "left", "" + ctx.box.boundingPoly.vertices[0].x + "px");
-    			set_style(div, "top", "" + ctx.box.boundingPoly.vertices[0].y + "px");
-    			set_style(div, "width", "" + (ctx.box.boundingPoly.vertices[1].x - ctx.box.boundingPoly.vertices[0].x) + "px");
-    			set_style(div, "height", "" + (ctx.box.boundingPoly.vertices[2].y - ctx.box.boundingPoly.vertices[0].y) + "px");
-    			add_location(div, file, 25, 0, 375);
-    			dispose = listen_dev(div, "click", ctx.sendForTranslation);
+    			rect = svg_element("rect");
+    			attr_dev(rect, "class", rect_class_value = "box " + (ctx.box.description === ctx.activeWord ? 'active' : '') + " svelte-1juro6w");
+    			attr_dev(rect, "x", rect_x_value = ctx.box.boundingPoly.vertices[0].x);
+    			attr_dev(rect, "y", rect_y_value = ctx.box.boundingPoly.vertices[0].y);
+    			attr_dev(rect, "width", rect_width_value = ctx.box.boundingPoly.vertices[1].x - ctx.box.boundingPoly.vertices[0].x);
+    			attr_dev(rect, "height", rect_height_value = ctx.box.boundingPoly.vertices[2].y - ctx.box.boundingPoly.vertices[0].y);
+    			add_location(rect, file, 28, 0, 407);
+    			dispose = listen_dev(rect, "click", ctx.sendForTranslation);
     		},
 
     		l: function claim(nodes) {
@@ -425,19 +428,28 @@ var app = (function () {
     		},
 
     		m: function mount(target, anchor) {
-    			insert_dev(target, div, anchor);
+    			insert_dev(target, rect, anchor);
     		},
 
     		p: function update(changed, ctx) {
-    			if ((changed.box || changed.activeWord) && div_class_value !== (div_class_value = "box " + (ctx.box.description === ctx.activeWord ? 'active' : '') + " svelte-14fm1i1")) {
-    				attr_dev(div, "class", div_class_value);
+    			if ((changed.box || changed.activeWord) && rect_class_value !== (rect_class_value = "box " + (ctx.box.description === ctx.activeWord ? 'active' : '') + " svelte-1juro6w")) {
+    				attr_dev(rect, "class", rect_class_value);
     			}
 
-    			if (changed.box) {
-    				set_style(div, "left", "" + ctx.box.boundingPoly.vertices[0].x + "px");
-    				set_style(div, "top", "" + ctx.box.boundingPoly.vertices[0].y + "px");
-    				set_style(div, "width", "" + (ctx.box.boundingPoly.vertices[1].x - ctx.box.boundingPoly.vertices[0].x) + "px");
-    				set_style(div, "height", "" + (ctx.box.boundingPoly.vertices[2].y - ctx.box.boundingPoly.vertices[0].y) + "px");
+    			if ((changed.box) && rect_x_value !== (rect_x_value = ctx.box.boundingPoly.vertices[0].x)) {
+    				attr_dev(rect, "x", rect_x_value);
+    			}
+
+    			if ((changed.box) && rect_y_value !== (rect_y_value = ctx.box.boundingPoly.vertices[0].y)) {
+    				attr_dev(rect, "y", rect_y_value);
+    			}
+
+    			if ((changed.box) && rect_width_value !== (rect_width_value = ctx.box.boundingPoly.vertices[1].x - ctx.box.boundingPoly.vertices[0].x)) {
+    				attr_dev(rect, "width", rect_width_value);
+    			}
+
+    			if ((changed.box) && rect_height_value !== (rect_height_value = ctx.box.boundingPoly.vertices[2].y - ctx.box.boundingPoly.vertices[0].y)) {
+    				attr_dev(rect, "height", rect_height_value);
     			}
     		},
 
@@ -446,7 +458,7 @@ var app = (function () {
 
     		d: function destroy(detaching) {
     			if (detaching) {
-    				detach_dev(div);
+    				detach_dev(rect);
     			}
 
     			dispose();
@@ -827,7 +839,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (150:2) {#if boxes}
+    // (155:2) {#if boxes}
     function create_if_block_1$1(ctx) {
     	var each_1_anchor, current;
 
@@ -914,11 +926,11 @@ var app = (function () {
     			}
     		}
     	};
-    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block_1$1.name, type: "if", source: "(150:2) {#if boxes}", ctx });
+    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block_1$1.name, type: "if", source: "(155:2) {#if boxes}", ctx });
     	return block;
     }
 
-    // (152:4) {#if !box.locale}
+    // (157:4) {#if !box.locale}
     function create_if_block_2(ctx) {
     	var current;
 
@@ -959,11 +971,11 @@ var app = (function () {
     			destroy_component(box, detaching);
     		}
     	};
-    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block_2.name, type: "if", source: "(152:4) {#if !box.locale}", ctx });
+    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block_2.name, type: "if", source: "(157:4) {#if !box.locale}", ctx });
     	return block;
     }
 
-    // (151:3) {#each boxes as box}
+    // (156:3) {#each boxes as box}
     function create_each_block$1(ctx) {
     	var if_block_anchor, current;
 
@@ -1020,11 +1032,11 @@ var app = (function () {
     			}
     		}
     	};
-    	dispatch_dev("SvelteRegisterBlock", { block, id: create_each_block$1.name, type: "each", source: "(151:3) {#each boxes as box}", ctx });
+    	dispatch_dev("SvelteRegisterBlock", { block, id: create_each_block$1.name, type: "each", source: "(156:3) {#each boxes as box}", ctx });
     	return block;
     }
 
-    // (160:0) {#if wtt !== null}
+    // (166:0) {#if wtt !== null}
     function create_if_block$1(ctx) {
     	var current;
 
@@ -1056,12 +1068,12 @@ var app = (function () {
     			destroy_component(translatedrawer, detaching);
     		}
     	};
-    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block$1.name, type: "if", source: "(160:0) {#if wtt !== null}", ctx });
+    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block$1.name, type: "if", source: "(166:0) {#if wtt !== null}", ctx });
     	return block;
     }
 
     function create_fragment$2(ctx) {
-    	var div2, div0, t0, div1, t1, t2, div3, input, current, dispose;
+    	var div2, div0, t0, div1, svg, t1, t2, div3, input, current, dispose;
 
     	var if_block0 = (ctx.boxes) && create_if_block_1$1(ctx);
 
@@ -1073,28 +1085,34 @@ var app = (function () {
     			div0 = element("div");
     			t0 = space();
     			div1 = element("div");
+    			svg = svg_element("svg");
     			if (if_block0) if_block0.c();
     			t1 = space();
     			if (if_block1) if_block1.c();
     			t2 = space();
     			div3 = element("div");
     			input = element("input");
-    			add_location(div0, file_1, 145, 1, 2706);
+    			attr_dev(div0, "class", "canvas-container");
+    			add_location(div0, file_1, 145, 1, 2734);
+    			attr_dev(svg, "width", ctx.width);
+    			attr_dev(svg, "height", ctx.height);
+    			attr_dev(svg, "xmlns", "http://www.w3.org/2000/svg");
+    			add_location(svg, file_1, 149, 1, 2833);
     			attr_dev(div1, "class", "image-overlay svelte-1c254n7");
-    			add_location(div1, file_1, 146, 1, 2747);
+    			add_location(div1, file_1, 146, 1, 2800);
     			attr_dev(div2, "class", "image-container svelte-1c254n7");
     			set_style(div2, "width", "" + ctx.width + "px");
     			set_style(div2, "height", "" + ctx.height + "px");
     			toggle_class(div2, "wtt", ctx.wtt !== null);
-    			add_location(div2, file_1, 139, 0, 2574);
+    			add_location(div2, file_1, 139, 0, 2602);
     			attr_dev(input, "type", "file");
     			attr_dev(input, "capture", "camera");
     			attr_dev(input, "accept", "image/*");
     			attr_dev(input, "name", "cameraInput");
     			attr_dev(input, "class", "svelte-1c254n7");
-    			add_location(input, file_1, 163, 1, 2975);
+    			add_location(input, file_1, 169, 1, 3103);
     			attr_dev(div3, "class", "open-camera svelte-1c254n7");
-    			add_location(div3, file_1, 162, 0, 2948);
+    			add_location(div3, file_1, 168, 0, 3076);
     			dispose = listen_dev(input, "change", ctx.input_change_handler);
     		},
 
@@ -1108,7 +1126,8 @@ var app = (function () {
     			ctx.div0_binding(div0);
     			append_dev(div2, t0);
     			append_dev(div2, div1);
-    			if (if_block0) if_block0.m(div1, null);
+    			append_dev(div1, svg);
+    			if (if_block0) if_block0.m(svg, null);
     			ctx.div2_binding(div2);
     			insert_dev(target, t1, anchor);
     			if (if_block1) if_block1.m(target, anchor);
@@ -1127,7 +1146,7 @@ var app = (function () {
     					if_block0 = create_if_block_1$1(ctx);
     					if_block0.c();
     					transition_in(if_block0, 1);
-    					if_block0.m(div1, null);
+    					if_block0.m(svg, null);
     				}
     			} else if (if_block0) {
     				group_outros();
@@ -1135,6 +1154,14 @@ var app = (function () {
     					if_block0 = null;
     				});
     				check_outros();
+    			}
+
+    			if (!current || changed.width) {
+    				attr_dev(svg, "width", ctx.width);
+    			}
+
+    			if (!current || changed.height) {
+    				attr_dev(svg, "height", ctx.height);
     			}
 
     			if (!current || changed.width) {
@@ -1225,10 +1252,11 @@ var app = (function () {
     });
 
     function imageLoaded (canvas) {
+    	$$invalidate('canvasContainer', canvasContainer.innerHTML = '', canvasContainer);
     	canvasContainer.appendChild(canvas);
     	$$invalidate('width', width = canvas.style.width.replace('px', ''));
     	$$invalidate('height', height = canvas.style.height.replace('px', ''));
-
+    	console.log('aaaa', width, height);
     	const base64 = canvas.toDataURL().split(',')[1];
     	doOcr(base64);
     }
@@ -1268,7 +1296,6 @@ var app = (function () {
     const options = {
     	maxWidth: window.innerWidth,
     	maxHeight: window.innerHeight * 0.92,
-    	// pixelRatio: window.devicePixelRatio,
     	canvas: true,
     	orientation: true,
     	cover: true
