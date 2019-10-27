@@ -76,10 +76,8 @@ const options = {
 	cover: true
 };
 
-onMount(() => {
-	$: file = files[0];
-	$: if (file) window.loadImage(file, imageLoaded, options);
-});
+$: file = files[0];
+$: if (file) window.loadImage(file, imageLoaded, options);
 </script>
 
 <style>

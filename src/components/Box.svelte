@@ -25,6 +25,7 @@ function sendForTranslation () {
 
 <div
 	class="box {box.description === activeWord ? 'active' : ''}"
+	data-word={box.description}
 	style="left: {box.boundingPoly.vertices[0].x}px; top: {box.boundingPoly.vertices[0].y}px; width: {box.boundingPoly.vertices[1].x - box.boundingPoly.vertices[0].x}px; height: {box.boundingPoly.vertices[2].y - box.boundingPoly.vertices[0].y}px"
 	on:click={sendForTranslation}
 	></div>
