@@ -406,12 +406,13 @@ var app = (function () {
     const file = "src/components/Box.svelte";
 
     function create_fragment(ctx) {
-    	var div, div_class_value, dispose;
+    	var div, div_class_value, div_data_word_value, dispose;
 
     	const block = {
     		c: function create() {
     			div = element("div");
     			attr_dev(div, "class", div_class_value = "box " + (ctx.box.description === ctx.activeWord ? 'active' : '') + " svelte-14fm1i1");
+    			attr_dev(div, "data-word", div_data_word_value = ctx.box.description);
     			set_style(div, "left", "" + ctx.box.boundingPoly.vertices[0].x + "px");
     			set_style(div, "top", "" + ctx.box.boundingPoly.vertices[0].y + "px");
     			set_style(div, "width", "" + (ctx.box.boundingPoly.vertices[1].x - ctx.box.boundingPoly.vertices[0].x) + "px");
@@ -431,6 +432,10 @@ var app = (function () {
     		p: function update(changed, ctx) {
     			if ((changed.box || changed.activeWord) && div_class_value !== (div_class_value = "box " + (ctx.box.description === ctx.activeWord ? 'active' : '') + " svelte-14fm1i1")) {
     				attr_dev(div, "class", div_class_value);
+    			}
+
+    			if ((changed.box) && div_data_word_value !== (div_data_word_value = ctx.box.description)) {
+    				attr_dev(div, "data-word", div_data_word_value);
     			}
 
     			if (changed.box) {
@@ -829,7 +834,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (150:2) {#if boxes}
+    // (155:2) {#if boxes}
     function create_if_block_1$1(ctx) {
     	var each_1_anchor, current;
 
@@ -916,11 +921,11 @@ var app = (function () {
     			}
     		}
     	};
-    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block_1$1.name, type: "if", source: "(150:2) {#if boxes}", ctx });
+    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block_1$1.name, type: "if", source: "(155:2) {#if boxes}", ctx });
     	return block;
     }
 
-    // (152:4) {#if !box.locale}
+    // (157:4) {#if !box.locale}
     function create_if_block_2(ctx) {
     	var current;
 
@@ -961,11 +966,11 @@ var app = (function () {
     			destroy_component(box, detaching);
     		}
     	};
-    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block_2.name, type: "if", source: "(152:4) {#if !box.locale}", ctx });
+    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block_2.name, type: "if", source: "(157:4) {#if !box.locale}", ctx });
     	return block;
     }
 
-    // (151:3) {#each boxes as box}
+    // (156:3) {#each boxes as box}
     function create_each_block$1(ctx) {
     	var if_block_anchor, current;
 
@@ -1022,11 +1027,11 @@ var app = (function () {
     			}
     		}
     	};
-    	dispatch_dev("SvelteRegisterBlock", { block, id: create_each_block$1.name, type: "each", source: "(151:3) {#each boxes as box}", ctx });
+    	dispatch_dev("SvelteRegisterBlock", { block, id: create_each_block$1.name, type: "each", source: "(156:3) {#each boxes as box}", ctx });
     	return block;
     }
 
-    // (160:0) {#if wtt !== null}
+    // (165:0) {#if wtt !== null}
     function create_if_block$1(ctx) {
     	var current;
 
@@ -1058,7 +1063,7 @@ var app = (function () {
     			destroy_component(translatedrawer, detaching);
     		}
     	};
-    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block$1.name, type: "if", source: "(160:0) {#if wtt !== null}", ctx });
+    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block$1.name, type: "if", source: "(165:0) {#if wtt !== null}", ctx });
     	return block;
     }
 
@@ -1081,22 +1086,22 @@ var app = (function () {
     			t2 = space();
     			div3 = element("div");
     			input = element("input");
-    			add_location(div0, file_1, 145, 1, 2706);
+    			add_location(div0, file_1, 150, 1, 2882);
     			attr_dev(div1, "class", "image-overlay svelte-1c254n7");
-    			add_location(div1, file_1, 146, 1, 2747);
+    			add_location(div1, file_1, 151, 1, 2923);
     			attr_dev(div2, "class", "image-container svelte-1c254n7");
     			set_style(div2, "width", "" + ctx.width + "px");
     			set_style(div2, "height", "" + ctx.height + "px");
     			toggle_class(div2, "wtt", ctx.wtt !== null);
-    			add_location(div2, file_1, 139, 0, 2574);
+    			add_location(div2, file_1, 144, 0, 2750);
     			attr_dev(input, "type", "file");
     			attr_dev(input, "capture", "camera");
     			attr_dev(input, "accept", "image/*");
     			attr_dev(input, "name", "cameraInput");
     			attr_dev(input, "class", "svelte-1c254n7");
-    			add_location(input, file_1, 163, 1, 2975);
+    			add_location(input, file_1, 168, 1, 3151);
     			attr_dev(div3, "class", "open-camera svelte-1c254n7");
-    			add_location(div3, file_1, 162, 0, 2948);
+    			add_location(div3, file_1, 167, 0, 3124);
     			dispose = listen_dev(input, "change", ctx.input_change_handler);
     		},
 
@@ -1227,7 +1232,12 @@ var app = (function () {
     });
 
     function imageLoaded (canvas) {
+    	// This doesn't seem to clear the contents
+    	$$invalidate('canvasContainer', canvasContainer.innerHTML = '', canvasContainer);
+    	console.log(canvasContainer);
+    	$$invalidate('boxes', boxes = null);
     	canvasContainer.appendChild(canvas);
+    	// This doesn't asign values to `width` or `height`
     	$$invalidate('width', width = canvas.style.width.replace('px', ''));
     	$$invalidate('height', height = canvas.style.height.replace('px', ''));
 
