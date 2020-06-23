@@ -1957,7 +1957,7 @@ var app = (function () {
     	let ocrKey = window.localStorage.getItem('ocr_key');
     	let translateKey = window.localStorage.getItem('translate_key');
 
-    	let showSettings = true;
+    	let showSettings = false;
 
     	function settings_inputLanguage_binding(value) {
     		inputLanguage = value;
