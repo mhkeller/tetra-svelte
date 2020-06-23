@@ -1,83 +1,82 @@
 <script>
-import scaleCanvas from '../modules/scaleCanvas.js';
-import Box from './Box.svelte';
-import TranslateDrawer from './TranslateDrawer.svelte';
-import { onMount } from 'svelte';
-import { wordToTranslate } from '../modules/stores.js';
+	import scaleCanvas from '../modules/scaleCanvas.js';
+	import Box from './Box.svelte';
+	import TranslateDrawer from './TranslateDrawer.svelte';
+	import { onMount } from 'svelte';
+	import { wordToTranslate } from '../modules/stores.js';
 
-let width;
-let height;
-let boxes;
-let wtt = null;
-let imageContainer;
-let canvasContainer;
+	let width;
+	let height;
+	let boxes;
+	let wtt = null;
+	let imageContainer;
+	let canvasContainer;
 
-const lang = 'fr';
-// let srcOrientation;
+	const lang = 'fr';
+	// let srcOrientation;
 
-const ocrKey = window.localStorage.getItem('ocr_key');
+	const ocrKey = window.localStorage.getItem('ocr_key');
 
-wordToTranslate.subscribe(val => {
-	wtt = val;
-});
+	wordToTranslate.subscribe(val => {
+		wtt = val;
+	});
 
-function imageLoaded (canvas) {
-	// This doesn't seem to clear the contents
-	canvasContainer.innerHTML = '';
-	console.log(canvasContainer);
-	boxes = null;
-	canvasContainer.appendChild(canvas);
-	// This doesn't asign values to `width` or `height`
-	width = canvas.style.width.replace('px', '');
-	height = canvas.style.height.replace('px', '');
+	function imageLoaded (canvas) {
+		// This doesn't seem to clear the contents
+		canvasContainer.innerHTML = '';
+		boxes = null;
+		canvasContainer.appendChild(canvas);
+		// This doesn't asign values to `width` or `height`
+		width = canvas.style.width.replace('px', '');
+		height = canvas.style.height.replace('px', '');
 
-	const base64 = canvas.toDataURL().split(',')[1];
-	doOcr(base64);
-}
+		const base64 = canvas.toDataURL().split(',')[1];
+		doOcr(base64);
+	}
 
-function doOcr (base64) {
-	(async () => {
-		const response = await window.fetch(`https://vision.googleapis.com/v1/images:annotate?key=${ocrKey}`, {
-			method: 'POST',
-			body: JSON.stringify({
-				requests: [
-					{
-						image: {
-							content: base64
-						},
-						features: [
-							{
-								type: 'TEXT_DETECTION'
+	function doOcr (base64) {
+		(async () => {
+			const response = await window.fetch(`https://vision.googleapis.com/v1/images:annotate?key=${ocrKey}`, {
+				method: 'POST',
+				body: JSON.stringify({
+					requests: [
+						{
+							image: {
+								content: base64
+							},
+							features: [
+								{
+									type: 'TEXT_DETECTION'
+								}
+							],
+							imageContext: {
+								languageHints: [lang]
 							}
-						],
-						imageContext: {
-							languageHints: [lang]
 						}
-					}
-				]
-			})
-		});
-		const res = await response.json();
+					]
+				})
+			});
+			const res = await response.json();
 
-		// const { data } = await worker.recognize(canvas);
-		console.log(res);
-		boxes = res.responses[0].textAnnotations;
-		// await worker.terminate();
-	})();
-}
+			// const { data } = await worker.recognize(canvas);
+			console.log(res);
+			boxes = res.responses[0].textAnnotations;
+			// await worker.terminate();
+		})();
+	}
 
-let files = [];
-const options = {
-	maxWidth: window.innerWidth,
-	maxHeight: window.innerHeight * 0.92,
-	// pixelRatio: window.devicePixelRatio,
-	canvas: true,
-	orientation: true,
-	cover: true
-};
+	let files = [];
+	const options = {
+		maxWidth: window.innerWidth,
+		maxHeight: window.innerHeight * 0.92,
+		// pixelRatio: window.devicePixelRatio,
+		canvas: true,
+		orientation: true,
+		cover: true
+	};
 
-$: file = files[0];
-$: if (file) window.loadImage(file, imageLoaded, options);
+	$: file = files[0];
+	$: if (file) window.loadImage(file, imageLoaded, options);
 </script>
 
 <style>
