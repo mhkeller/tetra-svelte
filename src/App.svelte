@@ -9,7 +9,7 @@
 	let ocrKey = window.localStorage.getItem('ocr_key');
 	let translateKey = window.localStorage.getItem('translate_key');
 
-	let showSettings = true;
+	let showSettings = false;
 </script>
 
 <style>
