@@ -896,7 +896,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (157:2) {#if boxes}
+    // (154:2) {#if boxes}
     function create_if_block_1$1(ctx) {
     	var each_1_anchor, current;
 
@@ -983,11 +983,11 @@ var app = (function () {
     			}
     		}
     	};
-    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block_1$1.name, type: "if", source: "(157:2) {#if boxes}", ctx });
+    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block_1$1.name, type: "if", source: "(154:2) {#if boxes}", ctx });
     	return block;
     }
 
-    // (159:4) {#if !box.locale}
+    // (156:4) {#if !box.locale}
     function create_if_block_2(ctx) {
     	var current;
 
@@ -1028,11 +1028,11 @@ var app = (function () {
     			destroy_component(box, detaching);
     		}
     	};
-    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block_2.name, type: "if", source: "(159:4) {#if !box.locale}", ctx });
+    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block_2.name, type: "if", source: "(156:4) {#if !box.locale}", ctx });
     	return block;
     }
 
-    // (158:3) {#each boxes as box}
+    // (155:3) {#each boxes as box}
     function create_each_block$1(ctx) {
     	var if_block_anchor, current;
 
@@ -1089,11 +1089,11 @@ var app = (function () {
     			}
     		}
     	};
-    	dispatch_dev("SvelteRegisterBlock", { block, id: create_each_block$1.name, type: "each", source: "(158:3) {#each boxes as box}", ctx });
+    	dispatch_dev("SvelteRegisterBlock", { block, id: create_each_block$1.name, type: "each", source: "(155:3) {#each boxes as box}", ctx });
     	return block;
     }
 
-    // (167:0) {#if wtt !== null}
+    // (164:0) {#if wtt !== null}
     function create_if_block$1(ctx) {
     	var current;
 
@@ -1140,7 +1140,7 @@ var app = (function () {
     			destroy_component(translatedrawer, detaching);
     		}
     	};
-    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block$1.name, type: "if", source: "(167:0) {#if wtt !== null}", ctx });
+    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block$1.name, type: "if", source: "(164:0) {#if wtt !== null}", ctx });
     	return block;
     }
 
@@ -1163,22 +1163,22 @@ var app = (function () {
     			t2 = space();
     			div3 = element("div");
     			input = element("input");
-    			add_location(div0, file_1, 152, 1, 3010);
+    			add_location(div0, file_1, 149, 1, 2931);
     			attr_dev(div1, "class", "image-overlay svelte-1c254n7");
-    			add_location(div1, file_1, 153, 1, 3051);
+    			add_location(div1, file_1, 150, 1, 2972);
     			attr_dev(div2, "class", "image-container svelte-1c254n7");
     			set_style(div2, "width", "" + ctx.width + "px");
     			set_style(div2, "height", "" + ctx.height + "px");
     			toggle_class(div2, "wtt", ctx.wtt !== null);
-    			add_location(div2, file_1, 146, 0, 2878);
+    			add_location(div2, file_1, 143, 0, 2799);
     			attr_dev(input, "type", "file");
     			attr_dev(input, "capture", "camera");
     			attr_dev(input, "accept", "image/*");
     			attr_dev(input, "name", "cameraInput");
     			attr_dev(input, "class", "svelte-1c254n7");
-    			add_location(input, file_1, 174, 1, 3335);
+    			add_location(input, file_1, 171, 1, 3256);
     			attr_dev(div3, "class", "open-camera svelte-1c254n7");
-    			add_location(div3, file_1, 173, 0, 3308);
+    			add_location(div3, file_1, 170, 0, 3229);
     			dispose = listen_dev(input, "change", ctx.input_change_handler);
     		},
 
@@ -1296,9 +1296,6 @@ var app = (function () {
     	
 
     	let { inputLanguage, outputLanguage, ocrKey, translateKey } = $$props;
-
-    	console.log('input', inputLanguage);
-    	console.log('output', outputLanguage);
 
     	let width;
     	let height;

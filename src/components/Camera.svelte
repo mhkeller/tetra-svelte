@@ -10,9 +10,6 @@
 	export let ocrKey;
 	export let translateKey;
 
-	console.log('input', inputLanguage);
-	console.log('output', outputLanguage);
-
 	let width;
 	let height;
 	let boxes;
