@@ -190,6 +190,8 @@ var app = (function () {
         }
     }
 
+    const globals = (typeof window !== 'undefined' ? window : global);
+
     function bind(component, name, callback) {
         if (component.$$.props.indexOf(name) === -1)
             return;
@@ -537,7 +539,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (97:0) {#if wtt !== null}
+    // (96:0) {#if wtt !== null}
     function create_if_block(ctx) {
     	var div2, input_1, t0, div0, t1, div1, dispose;
 
@@ -553,14 +555,14 @@ var app = (function () {
     			t1 = space();
     			div1 = element("div");
     			attr_dev(input_1, "type", "search");
-    			attr_dev(input_1, "class", "svelte-1bkgvhh");
-    			add_location(input_1, file$1, 100, 2, 1857);
-    			attr_dev(div0, "class", "translated-text svelte-1bkgvhh");
-    			add_location(div0, file$1, 101, 2, 1954);
-    			attr_dev(div1, "class", "close-btn svelte-1bkgvhh");
-    			add_location(div1, file$1, 110, 2, 2163);
-    			attr_dev(div2, "class", "translate-drawer svelte-1bkgvhh");
-    			add_location(div2, file$1, 97, 1, 1820);
+    			attr_dev(input_1, "class", "svelte-zyw1l0");
+    			add_location(input_1, file$1, 99, 2, 1872);
+    			attr_dev(div0, "class", "translated-text svelte-zyw1l0");
+    			add_location(div0, file$1, 100, 2, 1969);
+    			attr_dev(div1, "class", "close-btn svelte-zyw1l0");
+    			add_location(div1, file$1, 109, 2, 2178);
+    			attr_dev(div2, "class", "translate-drawer svelte-zyw1l0");
+    			add_location(div2, file$1, 96, 1, 1835);
 
     			dispose = [
     				listen_dev(input_1, "input", ctx.input_handler),
@@ -604,11 +606,11 @@ var app = (function () {
     			run_all(dispose);
     		}
     	};
-    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block.name, type: "if", source: "(97:0) {#if wtt !== null}", ctx });
+    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block.name, type: "if", source: "(96:0) {#if wtt !== null}", ctx });
     	return block;
     }
 
-    // (105:3) {#if translations}
+    // (104:3) {#if translations}
     function create_if_block_1(ctx) {
     	var each_1_anchor;
 
@@ -669,11 +671,11 @@ var app = (function () {
     			}
     		}
     	};
-    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block_1.name, type: "if", source: "(105:3) {#if translations}", ctx });
+    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block_1.name, type: "if", source: "(104:3) {#if translations}", ctx });
     	return block;
     }
 
-    // (106:4) {#each translations as translation}
+    // (105:4) {#each translations as translation}
     function create_each_block(ctx) {
     	var div, t_value = sanitize(ctx.translation.translatedText) + "", t;
 
@@ -682,7 +684,7 @@ var app = (function () {
     			div = element("div");
     			t = text(t_value);
     			attr_dev(div, "class", "translated-word");
-    			add_location(div, file$1, 106, 5, 2057);
+    			add_location(div, file$1, 105, 5, 2072);
     		},
 
     		m: function mount(target, anchor) {
@@ -702,7 +704,7 @@ var app = (function () {
     			}
     		}
     	};
-    	dispatch_dev("SvelteRegisterBlock", { block, id: create_each_block.name, type: "each", source: "(106:4) {#each translations as translation}", ctx });
+    	dispatch_dev("SvelteRegisterBlock", { block, id: create_each_block.name, type: "each", source: "(105:4) {#each translations as translation}", ctx });
     	return block;
     }
 
@@ -756,47 +758,48 @@ var app = (function () {
     	return block;
     }
 
-    const sourceLang = 'fr';
-
-    const targetLang = 'en';
-
     function sanitize (val) {
-    return typeof val === 'string' ? val.replace(/(\.|!|\?|,)/g, '') : val;
+    	return typeof val === 'string' ? val.replace(/(\.|!|\?|,)/g, '') : val;
     }
 
     function instance$1($$self, $$props, $$invalidate) {
     	
 
-    let wtt;
-    let translations;
-    let input;
+    	let wtt;
+    	let translations;
+    	let input;
 
-    const key = window.localStorage.getItem('translate_key');
+    	let { translateKey, inputLanguage, outputLanguage } = $$props;
 
-    onMount(() => {
-    	wordToTranslate.subscribe(val => {
-    		if (document.activeElement !== input) {
-    			if (input) {
-    				$$invalidate('input', input.value = sanitize(val) || '', input);
+    	onMount(() => {
+    		wordToTranslate.subscribe(val => {
+    			if (document.activeElement !== input) {
+    				if (input) {
+    					$$invalidate('input', input.value = sanitize(val) || '', input);
+    				}
     			}
-    		}
-    		$$invalidate('wtt', wtt = val);
-    		doTranslation(val);
+    			$$invalidate('wtt', wtt = val);
+    			doTranslation(val);
+    		});
     	});
-    });
 
-    async function doTranslation (val) {
-    	const response = await window.fetch(`https://translation.googleapis.com/language/translate/v2?q=${val}&source=${sourceLang}&target=${targetLang}&key=${key}`, {
-    		method: 'POST'
+    	async function doTranslation (val) {
+    		const response = await window.fetch(`https://translation.googleapis.com/language/translate/v2?q=${val}&source=${inputLanguage}&target=${outputLanguage}&key=${translateKey}`, {
+    			method: 'POST'
+    		});
+    		const res = await response.json();
+    		$$invalidate('translations', translations = res.data.translations);
+    	}
+
+    	function destroy () {
+    		$$invalidate('input', input.value = null, input);
+    		wordToTranslate.set(null);
+    	}
+
+    	const writable_props = ['translateKey', 'inputLanguage', 'outputLanguage'];
+    	Object.keys($$props).forEach(key => {
+    		if (!writable_props.includes(key) && !key.startsWith('$$')) console.warn(`<TranslateDrawer> was created with unknown prop '${key}'`);
     	});
-    	const res = await response.json();
-    	$$invalidate('translations', translations = res.data.translations);
-    }
-
-    function destroy () {
-    	$$invalidate('input', input.value = null, input);
-    	wordToTranslate.set(null);
-    }
 
     	function input_1_binding($$value) {
     		binding_callbacks[$$value ? 'unshift' : 'push'](() => {
@@ -806,20 +809,32 @@ var app = (function () {
 
     	const input_handler = (e) => wordToTranslate.set(e.target.value);
 
+    	$$self.$set = $$props => {
+    		if ('translateKey' in $$props) $$invalidate('translateKey', translateKey = $$props.translateKey);
+    		if ('inputLanguage' in $$props) $$invalidate('inputLanguage', inputLanguage = $$props.inputLanguage);
+    		if ('outputLanguage' in $$props) $$invalidate('outputLanguage', outputLanguage = $$props.outputLanguage);
+    	};
+
     	$$self.$capture_state = () => {
-    		return {};
+    		return { wtt, translations, input, translateKey, inputLanguage, outputLanguage };
     	};
 
     	$$self.$inject_state = $$props => {
     		if ('wtt' in $$props) $$invalidate('wtt', wtt = $$props.wtt);
     		if ('translations' in $$props) $$invalidate('translations', translations = $$props.translations);
     		if ('input' in $$props) $$invalidate('input', input = $$props.input);
+    		if ('translateKey' in $$props) $$invalidate('translateKey', translateKey = $$props.translateKey);
+    		if ('inputLanguage' in $$props) $$invalidate('inputLanguage', inputLanguage = $$props.inputLanguage);
+    		if ('outputLanguage' in $$props) $$invalidate('outputLanguage', outputLanguage = $$props.outputLanguage);
     	};
 
     	return {
     		wtt,
     		translations,
     		input,
+    		translateKey,
+    		inputLanguage,
+    		outputLanguage,
     		destroy,
     		input_1_binding,
     		input_handler
@@ -829,12 +844,49 @@ var app = (function () {
     class TranslateDrawer extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init(this, options, instance$1, create_fragment$1, safe_not_equal, []);
+    		init(this, options, instance$1, create_fragment$1, safe_not_equal, ["translateKey", "inputLanguage", "outputLanguage"]);
     		dispatch_dev("SvelteRegisterComponent", { component: this, tagName: "TranslateDrawer", options, id: create_fragment$1.name });
+
+    		const { ctx } = this.$$;
+    		const props = options.props || {};
+    		if (ctx.translateKey === undefined && !('translateKey' in props)) {
+    			console.warn("<TranslateDrawer> was created without expected prop 'translateKey'");
+    		}
+    		if (ctx.inputLanguage === undefined && !('inputLanguage' in props)) {
+    			console.warn("<TranslateDrawer> was created without expected prop 'inputLanguage'");
+    		}
+    		if (ctx.outputLanguage === undefined && !('outputLanguage' in props)) {
+    			console.warn("<TranslateDrawer> was created without expected prop 'outputLanguage'");
+    		}
+    	}
+
+    	get translateKey() {
+    		throw new Error("<TranslateDrawer>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set translateKey(value) {
+    		throw new Error("<TranslateDrawer>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	get inputLanguage() {
+    		throw new Error("<TranslateDrawer>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set inputLanguage(value) {
+    		throw new Error("<TranslateDrawer>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	get outputLanguage() {
+    		throw new Error("<TranslateDrawer>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set outputLanguage(value) {
+    		throw new Error("<TranslateDrawer>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
     	}
     }
 
     /* src/components/Camera.svelte generated by Svelte v3.12.1 */
+    const { console: console_1 } = globals;
 
     const file_1 = "src/components/Camera.svelte";
 
@@ -844,7 +896,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (154:2) {#if boxes}
+    // (157:2) {#if boxes}
     function create_if_block_1$1(ctx) {
     	var each_1_anchor, current;
 
@@ -931,11 +983,11 @@ var app = (function () {
     			}
     		}
     	};
-    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block_1$1.name, type: "if", source: "(154:2) {#if boxes}", ctx });
+    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block_1$1.name, type: "if", source: "(157:2) {#if boxes}", ctx });
     	return block;
     }
 
-    // (156:4) {#if !box.locale}
+    // (159:4) {#if !box.locale}
     function create_if_block_2(ctx) {
     	var current;
 
@@ -976,11 +1028,11 @@ var app = (function () {
     			destroy_component(box, detaching);
     		}
     	};
-    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block_2.name, type: "if", source: "(156:4) {#if !box.locale}", ctx });
+    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block_2.name, type: "if", source: "(159:4) {#if !box.locale}", ctx });
     	return block;
     }
 
-    // (155:3) {#each boxes as box}
+    // (158:3) {#each boxes as box}
     function create_each_block$1(ctx) {
     	var if_block_anchor, current;
 
@@ -1037,15 +1089,22 @@ var app = (function () {
     			}
     		}
     	};
-    	dispatch_dev("SvelteRegisterBlock", { block, id: create_each_block$1.name, type: "each", source: "(155:3) {#each boxes as box}", ctx });
+    	dispatch_dev("SvelteRegisterBlock", { block, id: create_each_block$1.name, type: "each", source: "(158:3) {#each boxes as box}", ctx });
     	return block;
     }
 
-    // (164:0) {#if wtt !== null}
+    // (167:0) {#if wtt !== null}
     function create_if_block$1(ctx) {
     	var current;
 
-    	var translatedrawer = new TranslateDrawer({ $$inline: true });
+    	var translatedrawer = new TranslateDrawer({
+    		props: {
+    		inputLanguage: ctx.inputLanguage,
+    		outputLanguage: ctx.outputLanguage,
+    		translateKey: ctx.translateKey
+    	},
+    		$$inline: true
+    	});
 
     	const block = {
     		c: function create() {
@@ -1055,6 +1114,14 @@ var app = (function () {
     		m: function mount(target, anchor) {
     			mount_component(translatedrawer, target, anchor);
     			current = true;
+    		},
+
+    		p: function update(changed, ctx) {
+    			var translatedrawer_changes = {};
+    			if (changed.inputLanguage) translatedrawer_changes.inputLanguage = ctx.inputLanguage;
+    			if (changed.outputLanguage) translatedrawer_changes.outputLanguage = ctx.outputLanguage;
+    			if (changed.translateKey) translatedrawer_changes.translateKey = ctx.translateKey;
+    			translatedrawer.$set(translatedrawer_changes);
     		},
 
     		i: function intro(local) {
@@ -1073,7 +1140,7 @@ var app = (function () {
     			destroy_component(translatedrawer, detaching);
     		}
     	};
-    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block$1.name, type: "if", source: "(164:0) {#if wtt !== null}", ctx });
+    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block$1.name, type: "if", source: "(167:0) {#if wtt !== null}", ctx });
     	return block;
     }
 
@@ -1096,22 +1163,22 @@ var app = (function () {
     			t2 = space();
     			div3 = element("div");
     			input = element("input");
-    			add_location(div0, file_1, 149, 1, 2919);
+    			add_location(div0, file_1, 152, 1, 3010);
     			attr_dev(div1, "class", "image-overlay svelte-1c254n7");
-    			add_location(div1, file_1, 150, 1, 2960);
+    			add_location(div1, file_1, 153, 1, 3051);
     			attr_dev(div2, "class", "image-container svelte-1c254n7");
     			set_style(div2, "width", "" + ctx.width + "px");
     			set_style(div2, "height", "" + ctx.height + "px");
     			toggle_class(div2, "wtt", ctx.wtt !== null);
-    			add_location(div2, file_1, 143, 0, 2787);
+    			add_location(div2, file_1, 146, 0, 2878);
     			attr_dev(input, "type", "file");
     			attr_dev(input, "capture", "camera");
     			attr_dev(input, "accept", "image/*");
     			attr_dev(input, "name", "cameraInput");
     			attr_dev(input, "class", "svelte-1c254n7");
-    			add_location(input, file_1, 167, 1, 3188);
+    			add_location(input, file_1, 174, 1, 3335);
     			attr_dev(div3, "class", "open-camera svelte-1c254n7");
-    			add_location(div3, file_1, 166, 0, 3161);
+    			add_location(div3, file_1, 173, 0, 3308);
     			dispose = listen_dev(input, "change", ctx.input_change_handler);
     		},
 
@@ -1167,12 +1234,15 @@ var app = (function () {
     			}
 
     			if (ctx.wtt !== null) {
-    				if (!if_block1) {
+    				if (if_block1) {
+    					if_block1.p(changed, ctx);
+    					transition_in(if_block1, 1);
+    				} else {
     					if_block1 = create_if_block$1(ctx);
     					if_block1.c();
     					transition_in(if_block1, 1);
     					if_block1.m(t2.parentNode, t2);
-    				} else transition_in(if_block1, 1);
+    				}
     			} else if (if_block1) {
     				group_outros();
     				transition_out(if_block1, 1, 1, () => {
@@ -1222,10 +1292,13 @@ var app = (function () {
     	return block;
     }
 
-    const lang = 'fr';
-
     function instance$2($$self, $$props, $$invalidate) {
     	
+
+    	let { inputLanguage, outputLanguage, ocrKey, translateKey } = $$props;
+
+    	console.log('input', inputLanguage);
+    	console.log('output', outputLanguage);
 
     	let width;
     	let height;
@@ -1233,9 +1306,6 @@ var app = (function () {
     	let wtt = null;
     	let imageContainer;
     	let canvasContainer;
-    	// let srcOrientation;
-
-    	const ocrKey = window.localStorage.getItem('ocr_key');
 
     	wordToTranslate.subscribe(val => {
     		$$invalidate('wtt', wtt = val);
@@ -1270,7 +1340,7 @@ var app = (function () {
     								}
     							],
     							imageContext: {
-    								languageHints: [lang]
+    								languageHints: [inputLanguage]
     							}
     						}
     					]
@@ -1291,9 +1361,14 @@ var app = (function () {
     		maxHeight: window.innerHeight * 0.92,
     		// pixelRatio: window.devicePixelRatio,
     		canvas: true,
-    		orientation: true,
+    		// orientation: true,
     		cover: true
     	};
+
+    	const writable_props = ['inputLanguage', 'outputLanguage', 'ocrKey', 'translateKey'];
+    	Object.keys($$props).forEach(key => {
+    		if (!writable_props.includes(key) && !key.startsWith('$$')) console_1.warn(`<Camera> was created with unknown prop '${key}'`);
+    	});
 
     	function div0_binding($$value) {
     		binding_callbacks[$$value ? 'unshift' : 'push'](() => {
@@ -1312,11 +1387,22 @@ var app = (function () {
     		$$invalidate('files', files);
     	}
 
+    	$$self.$set = $$props => {
+    		if ('inputLanguage' in $$props) $$invalidate('inputLanguage', inputLanguage = $$props.inputLanguage);
+    		if ('outputLanguage' in $$props) $$invalidate('outputLanguage', outputLanguage = $$props.outputLanguage);
+    		if ('ocrKey' in $$props) $$invalidate('ocrKey', ocrKey = $$props.ocrKey);
+    		if ('translateKey' in $$props) $$invalidate('translateKey', translateKey = $$props.translateKey);
+    	};
+
     	$$self.$capture_state = () => {
-    		return {};
+    		return { inputLanguage, outputLanguage, ocrKey, translateKey, width, height, boxes, wtt, imageContainer, canvasContainer, files, file };
     	};
 
     	$$self.$inject_state = $$props => {
+    		if ('inputLanguage' in $$props) $$invalidate('inputLanguage', inputLanguage = $$props.inputLanguage);
+    		if ('outputLanguage' in $$props) $$invalidate('outputLanguage', outputLanguage = $$props.outputLanguage);
+    		if ('ocrKey' in $$props) $$invalidate('ocrKey', ocrKey = $$props.ocrKey);
+    		if ('translateKey' in $$props) $$invalidate('translateKey', translateKey = $$props.translateKey);
     		if ('width' in $$props) $$invalidate('width', width = $$props.width);
     		if ('height' in $$props) $$invalidate('height', height = $$props.height);
     		if ('boxes' in $$props) $$invalidate('boxes', boxes = $$props.boxes);
@@ -1335,6 +1421,10 @@ var app = (function () {
     	};
 
     	return {
+    		inputLanguage,
+    		outputLanguage,
+    		ocrKey,
+    		translateKey,
     		width,
     		height,
     		boxes,
@@ -1351,8 +1441,55 @@ var app = (function () {
     class Camera extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init(this, options, instance$2, create_fragment$2, safe_not_equal, []);
+    		init(this, options, instance$2, create_fragment$2, safe_not_equal, ["inputLanguage", "outputLanguage", "ocrKey", "translateKey"]);
     		dispatch_dev("SvelteRegisterComponent", { component: this, tagName: "Camera", options, id: create_fragment$2.name });
+
+    		const { ctx } = this.$$;
+    		const props = options.props || {};
+    		if (ctx.inputLanguage === undefined && !('inputLanguage' in props)) {
+    			console_1.warn("<Camera> was created without expected prop 'inputLanguage'");
+    		}
+    		if (ctx.outputLanguage === undefined && !('outputLanguage' in props)) {
+    			console_1.warn("<Camera> was created without expected prop 'outputLanguage'");
+    		}
+    		if (ctx.ocrKey === undefined && !('ocrKey' in props)) {
+    			console_1.warn("<Camera> was created without expected prop 'ocrKey'");
+    		}
+    		if (ctx.translateKey === undefined && !('translateKey' in props)) {
+    			console_1.warn("<Camera> was created without expected prop 'translateKey'");
+    		}
+    	}
+
+    	get inputLanguage() {
+    		throw new Error("<Camera>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set inputLanguage(value) {
+    		throw new Error("<Camera>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	get outputLanguage() {
+    		throw new Error("<Camera>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set outputLanguage(value) {
+    		throw new Error("<Camera>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	get ocrKey() {
+    		throw new Error("<Camera>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set ocrKey(value) {
+    		throw new Error("<Camera>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	get translateKey() {
+    		throw new Error("<Camera>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set translateKey(value) {
+    		throw new Error("<Camera>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
     	}
     }
 
@@ -1361,43 +1498,43 @@ var app = (function () {
     const file$2 = "src/components/Settings.svelte";
 
     function create_fragment$3(ctx) {
-    	var div, input0, t0, input1, t1, input2, t2, input3, t3, button, dispose;
+    	var div, button, t1, input0, t2, input1, t3, input2, t4, input3, dispose;
 
     	const block = {
     		c: function create() {
     			div = element("div");
-    			input0 = element("input");
-    			t0 = space();
-    			input1 = element("input");
-    			t1 = space();
-    			input2 = element("input");
-    			t2 = space();
-    			input3 = element("input");
-    			t3 = space();
     			button = element("button");
     			button.textContent = "Close";
+    			t1 = space();
+    			input0 = element("input");
+    			t2 = space();
+    			input1 = element("input");
+    			t3 = space();
+    			input2 = element("input");
+    			t4 = space();
+    			input3 = element("input");
+    			add_location(button, file$2, 18, 1, 277);
     			attr_dev(input0, "placeholder", "Input language...");
     			attr_dev(input0, "class", "svelte-1rh7wf5");
-    			add_location(input0, file$2, 19, 1, 278);
+    			add_location(input0, file$2, 21, 1, 343);
     			attr_dev(input1, "placeholder", "Output language...");
     			attr_dev(input1, "class", "svelte-1rh7wf5");
-    			add_location(input1, file$2, 23, 1, 353);
+    			add_location(input1, file$2, 25, 1, 418);
     			attr_dev(input2, "placeholder", "Enter OCR key...");
     			attr_dev(input2, "class", "svelte-1rh7wf5");
-    			add_location(input2, file$2, 27, 1, 430);
+    			add_location(input2, file$2, 29, 1, 495);
     			attr_dev(input3, "placeholder", "Enter translation key...");
     			attr_dev(input3, "class", "svelte-1rh7wf5");
-    			add_location(input3, file$2, 31, 1, 497);
-    			add_location(button, file$2, 35, 1, 578);
+    			add_location(input3, file$2, 33, 1, 562);
     			attr_dev(div, "class", "input-container svelte-1rh7wf5");
-    			add_location(div, file$2, 18, 0, 247);
+    			add_location(div, file$2, 17, 0, 246);
 
     			dispose = [
+    				listen_dev(button, "click", ctx.click_handler),
     				listen_dev(input0, "input", ctx.input0_input_handler),
     				listen_dev(input1, "input", ctx.input1_input_handler),
     				listen_dev(input2, "input", ctx.input2_input_handler),
-    				listen_dev(input3, "input", ctx.input3_input_handler),
-    				listen_dev(button, "click", ctx.click_handler)
+    				listen_dev(input3, "input", ctx.input3_input_handler)
     			];
     		},
 
@@ -1407,27 +1544,26 @@ var app = (function () {
 
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
+    			append_dev(div, button);
+    			append_dev(div, t1);
     			append_dev(div, input0);
 
     			set_input_value(input0, ctx.inputLanguage);
 
-    			append_dev(div, t0);
+    			append_dev(div, t2);
     			append_dev(div, input1);
 
     			set_input_value(input1, ctx.outputLanguage);
 
-    			append_dev(div, t1);
+    			append_dev(div, t3);
     			append_dev(div, input2);
 
     			set_input_value(input2, ctx.ocrKey);
 
-    			append_dev(div, t2);
+    			append_dev(div, t4);
     			append_dev(div, input3);
 
     			set_input_value(input3, ctx.translateKey);
-
-    			append_dev(div, t3);
-    			append_dev(div, button);
     		},
 
     		p: function update(changed, ctx) {
@@ -1460,6 +1596,8 @@ var app = (function () {
     		if (!writable_props.includes(key) && !key.startsWith('$$')) console.warn(`<Settings> was created with unknown prop '${key}'`);
     	});
 
+    	const click_handler = () => $$invalidate('showSettings', showSettings = false);
+
     	function input0_input_handler() {
     		inputLanguage = this.value;
     		$$invalidate('inputLanguage', inputLanguage);
@@ -1479,8 +1617,6 @@ var app = (function () {
     		translateKey = this.value;
     		$$invalidate('translateKey', translateKey);
     	}
-
-    	const click_handler = () => $$invalidate('showSettings', showSettings = false);
 
     	$$self.$set = $$props => {
     		if ('inputLanguage' in $$props) $$invalidate('inputLanguage', inputLanguage = $$props.inputLanguage);
@@ -1508,11 +1644,11 @@ var app = (function () {
     		ocrKey,
     		translateKey,
     		showSettings,
+    		click_handler,
     		input0_input_handler,
     		input1_input_handler,
     		input2_input_handler,
-    		input3_input_handler,
-    		click_handler
+    		input3_input_handler
     	};
     }
 
@@ -1586,8 +1722,8 @@ var app = (function () {
     	const block = {
     		c: function create() {
     			div = element("div");
-    			attr_dev(div, "class", "show-settings svelte-vkvvtl");
-    			add_location(div, file$3, 18, 0, 280);
+    			attr_dev(div, "class", "show-settings svelte-1pudom9");
+    			add_location(div, file$3, 18, 0, 282);
     			dispose = listen_dev(div, "click", ctx.click_handler);
     		},
 
@@ -1692,10 +1828,10 @@ var app = (function () {
     	}
 
     	let camera_props = {
-    		inputLanguage: true,
-    		outputLanguage: true,
-    		ocrKey: true,
-    		translateKey: true
+    		inputLanguage: ctx.inputLanguage,
+    		outputLanguage: ctx.outputLanguage,
+    		ocrKey: ctx.ocrKey,
+    		translateKey: ctx.translateKey
     	};
     	if (ctx.showSettings !== void 0) {
     		camera_props.showSettings = ctx.showSettings;
@@ -1726,6 +1862,10 @@ var app = (function () {
     			settingsbutton.$set(settingsbutton_changes);
 
     			var camera_changes = {};
+    			if (changed.inputLanguage) camera_changes.inputLanguage = ctx.inputLanguage;
+    			if (changed.outputLanguage) camera_changes.outputLanguage = ctx.outputLanguage;
+    			if (changed.ocrKey) camera_changes.ocrKey = ctx.ocrKey;
+    			if (changed.translateKey) camera_changes.translateKey = ctx.translateKey;
     			if (!updating_showSettings_1 && changed.showSettings) {
     				camera_changes.showSettings = ctx.showSettings;
     			}
@@ -1957,7 +2097,7 @@ var app = (function () {
     	let ocrKey = window.localStorage.getItem('ocr_key');
     	let translateKey = window.localStorage.getItem('translate_key');
 
-    	let showSettings = false;
+    	let showSettings = !ocrKey || !translateKey;
 
     	function settings_inputLanguage_binding(value) {
     		inputLanguage = value;
