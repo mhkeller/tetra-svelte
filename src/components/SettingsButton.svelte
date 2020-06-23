@@ -5,10 +5,10 @@
 <style>
 	.show-settings {
 		position: fixed;
-		top: 3px;
+		top: 7px;
 		left: 3px;
-		width: 3vw;
-		height: 3vw;
+		width: 30px;
+		height: 30px;
 		background: url(settings-btn-white.svg);
 		background-size: contain;
 		background-repeat: no-repeat;

@@ -1,44 +1,43 @@
 <script>
-import { wordToTranslate } from '../modules/stores.js';
-import { onMount } from 'svelte';
+	import { wordToTranslate } from '../modules/stores.js';
+	import { onMount } from 'svelte';
 
-let wtt;
-let translations;
-let input;
+	let wtt;
+	let translations;
+	let input;
 
-const sourceLang = 'fr';
-const targetLang = 'en';
+	export let translateKey;
+	export let inputLanguage;
+	export let outputLanguage;
 
-const key = window.localStorage.getItem('translate_key');
-
-onMount(() => {
-	wordToTranslate.subscribe(val => {
-		if (document.activeElement !== input) {
-			if (input) {
-				input.value = sanitize(val) || '';
+	onMount(() => {
+		wordToTranslate.subscribe(val => {
+			if (document.activeElement !== input) {
+				if (input) {
+					input.value = sanitize(val) || '';
+				}
 			}
-		}
-		wtt = val;
-		doTranslation(val);
+			wtt = val;
+			doTranslation(val);
+		});
 	});
-});
 
-async function doTranslation (val) {
-	const response = await window.fetch(`https://translation.googleapis.com/language/translate/v2?q=${val}&source=${sourceLang}&target=${targetLang}&key=${key}`, {
-		method: 'POST'
-	});
-	const res = await response.json();
-	translations = res.data.translations;
-}
+	async function doTranslation (val) {
+		const response = await window.fetch(`https://translation.googleapis.com/language/translate/v2?q=${val}&source=${inputLanguage}&target=${outputLanguage}&key=${translateKey}`, {
+			method: 'POST'
+		});
+		const res = await response.json();
+		translations = res.data.translations;
+	}
 
-function destroy () {
-	input.value = null;
-	wordToTranslate.set(null);
-}
+	function destroy () {
+		input.value = null;
+		wordToTranslate.set(null);
+	}
 
-function sanitize (val) {
-	return typeof val === 'string' ? val.replace(/(\.|!|\?|,)/g, '') : val;
-}
+	function sanitize (val) {
+		return typeof val === 'string' ? val.replace(/(\.|!|\?|,)/g, '') : val;
+	}
 </script>
 
 <style>
@@ -46,7 +45,7 @@ function sanitize (val) {
 		background-color: #e8e5de;
 		color: #000;
 		padding: 20px;
-		position: absolute;
+		position: fixed;
 		left: 0;
 		right: 0;
 		bottom: 0;

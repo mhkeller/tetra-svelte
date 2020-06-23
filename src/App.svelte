@@ -9,7 +9,7 @@
 	let ocrKey = window.localStorage.getItem('ocr_key');
 	let translateKey = window.localStorage.getItem('translate_key');
 
-	let showSettings = false;
+	let showSettings = !ocrKey || !translateKey;
 </script>
 
 <style>
@@ -32,10 +32,10 @@
 	/>
 	<Camera
 		bind:showSettings
-		inputLanguage
-		outputLanguage
-		ocrKey
-		translateKey
+		{inputLanguage}
+		{outputLanguage}
+		{ocrKey}
+		{translateKey}
 	/>
 {/if}
 

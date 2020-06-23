@@ -5,17 +5,20 @@
 	import { onMount } from 'svelte';
 	import { wordToTranslate } from '../modules/stores.js';
 
+	export let inputLanguage;
+	export let outputLanguage;
+	export let ocrKey;
+	export let translateKey;
+
+	console.log('input', inputLanguage);
+	console.log('output', outputLanguage);
+
 	let width;
 	let height;
 	let boxes;
 	let wtt = null;
 	let imageContainer;
 	let canvasContainer;
-
-	const lang = 'fr';
-	// let srcOrientation;
-
-	const ocrKey = window.localStorage.getItem('ocr_key');
 
 	wordToTranslate.subscribe(val => {
 		wtt = val;
@@ -50,7 +53,7 @@
 								}
 							],
 							imageContext: {
-								languageHints: [lang]
+								languageHints: [inputLanguage]
 							}
 						}
 					]
@@ -71,7 +74,7 @@
 		maxHeight: window.innerHeight * 0.92,
 		// pixelRatio: window.devicePixelRatio,
 		canvas: true,
-		orientation: true,
+		// orientation: true,
 		cover: true
 	};
 
@@ -162,7 +165,11 @@
 </div>
 
 {#if wtt !== null}
-	<TranslateDrawer/>
+	<TranslateDrawer
+		{inputLanguage}
+		{outputLanguage}
+		{translateKey}
+	/>
 {/if}
 <div class="open-camera">
 	<input

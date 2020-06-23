@@ -1,7 +1,6 @@
 <script>
 	export let inputLanguage = 'fr';
 	export let outputLanguage = 'en';
-
 	export let ocrKey;
 	export let translateKey;
 	export let showSettings;
@@ -17,6 +16,9 @@
 </style>
 
 <div class="input-container">
+	<button
+		on:click={() => showSettings = false}
+	>Close</button>
 	<input
 		placeholder="Input language..."
 		bind:value={inputLanguage}
@@ -33,7 +35,4 @@
 		placeholder="Enter translation key..."
 		bind:value={translateKey}
 	/>
-	<button
-		on:click={() => showSettings = false}
-	>Close</button>
 </div>
